@@ -10,20 +10,28 @@ const inputValidation = z.object({
   password: z.string().min(4),
 });
 
-export const signup = async (req: Request, res: Response) => {
-  // const { username, email, password } = req.body;
+const inputValidationLogin = z.object({
+  email: z.string().email().max(70).optional(),
+  username: z.string().min(3).max(8).optional(),
+  password: z.string().min(4),
+});
 
+export const signup = async (req: Request, res: Response) => {
   const parsedInput = inputValidation.safeParse(req.body);
 
-  if(!parsedInput.success){
+  if (!parsedInput.success) {
     return res.status(400).send({ message: "Invalid input", errors: parsedInput.error });
   }
   const { email, username, password } = parsedInput.data;
-  
+
   try {
-    const existingUser = await User.findOne({ email });
+    // Check if the user already exists by email or username
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }]
+    });
+
     if (existingUser) {
-      return res.status(400).send({ message: "User already exists" });
+      return res.status(400).send({ message: "User already exists with the given email or username" });
     }
 
     const salt = await bcrypt.genSalt();
@@ -42,17 +50,18 @@ export const signup = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  // const { email, password } = req.body;
+  const parsedInput = inputValidationLogin.safeParse(req.body);
 
-  const parsedInput = inputValidation.safeParse(req.body)
-
-  if(!parsedInput.success){
+  if (!parsedInput.success) {
     return res.status(400).send({ message: "Invalid input", errors: parsedInput.error });
   }
-  const { email, password } = parsedInput.data;
+  const { email, username, password } = parsedInput.data;
 
   try {
-    const existingUser = await User.findOne({ email });
+    // Check for user using email or username
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }]
+    });
 
     if (!existingUser) {
       return res.status(400).send({ message: "User does not exist" });
@@ -69,8 +78,8 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const jwtToken = jwt.sign(
-      { id: existingUser._id, email: existingUser.email },
-      process.env.JWT_KEY as string,
+      { id: existingUser._id, email: existingUser.email, username: existingUser.username },
+      jwtKey
     );
 
     res.cookie("token", jwtToken, {

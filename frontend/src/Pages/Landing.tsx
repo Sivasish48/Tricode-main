@@ -63,7 +63,7 @@ const Landing: React.FC = () => {
 
   return (
     <div>
-<div className="relative h-full w-full overflow-hidden bg-gradient-to-b from-[#393BB2] via-[#1f1f3f] to-black">
+<div className="relative h-full w-full overflow-hidden bg-black">
   <BackgroundBeamsWithCollision>
     {/* Main Heading with tighter spacing */}
     <div className="relative z-10 text-center font-sans font-bold leading-tight md:leading-snug">

@@ -28,9 +28,11 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useSaveCodeMutation } from "../redux/slices/api";
 
 
 function CodeHeader() {
+  const [saveCode , { isLoading }] = useSaveCodeMutation();
   const { urlId } = useParams();
 
   const navigate = useNavigate();
@@ -61,15 +63,16 @@ function CodeHeader() {
   const handleSave = async () => {
     setSaveLoading(true); // Start loading
     try {
-      const response = await axios.post("http://localhost:5000/compiler/save", {
-        fullCode: {
-          html: fullCode.html,
-          css: fullCode.css,
-          javascript: fullCode.javascript,
-        },
-      });
-      console.log("Response: ", response.data);
-      navigate(`/compiler/${response.data.url}`, { replace: true });
+      // const response = await axios.post("http://localhost:5000/compiler/save", {
+      //   fullCode: {
+      //     html: fullCode.html,
+      //     css: fullCode.css,
+      //     javascript: fullCode.javascript,
+      //   },
+      // });
+      // console.log("Response: ", response.data);
+      const response = await saveCode(fullCode).unwrap();
+      // navigate(`/compiler/${response.data.url}`, { replace: true });
     } catch (error) {
       console.error(error);
     } finally {

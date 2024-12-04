@@ -13,7 +13,7 @@ export const api = createApi({
       query: (fullCode) => ({
         url: "/compiler/save",
         method: "POST",
-        body: {fullCode},
+        body: fullCode,
       }),
     }),
   }),

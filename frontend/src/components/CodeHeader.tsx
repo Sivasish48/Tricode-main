@@ -28,16 +28,15 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import  {useSaveCodeMutation}  from "../redux/slices/api";
-
-
+import { useSaveCodeMutation } from "../redux/slices/api";
+import { showToast } from "../lib/error/handleError";
 function CodeHeader() {
-  const [saveCode , { isLoading }] = useSaveCodeMutation();
+  const [saveCode, { isLoading }] = useSaveCodeMutation();
   const { urlId } = useParams();
 
   const navigate = useNavigate();
-  const [saveLoading, setSaveLoading] = useState<boolean>(false);
-  const [shareBtn,setShareBtn] = useState<boolean>(false);
+
+  const [shareBtn, setShareBtn] = useState<boolean>(false);
   const dispatch = useDispatch();
   const currentLanguage = useSelector(
     (state: RootState) => state.compilerSlice.currentLanguage
@@ -48,30 +47,24 @@ function CodeHeader() {
 
   console.log("Full Code: ", fullCode);
 
-
-
   const handleSave = async () => {
-    setSaveLoading(true); // Start loading
     try {
       console.log("Saving Full Code: ", fullCode);
-  
-      // Ensure fullCode structure matches the expected server payload
+
       const response = await saveCode(fullCode).unwrap();
-  
+
       console.log("Save Response: ", response);
-  
-      // Navigate if the API response includes a URL for redirection
+
       if (response.url) {
         navigate(`/compiler/${response.url}`, { replace: true });
+        showToast.success("Code saved successfully");
       }
     } catch (error) {
       console.error("Error saving code: ", error);
-    } finally {
-      setSaveLoading(false); // Stop loading
+
+      showToast.error("Error saving code due to missing data");
     }
   };
-  
-
 
   const loadCode = async () => {
     try {
@@ -89,12 +82,11 @@ function CodeHeader() {
     if (urlId) {
       loadCode();
       setShareBtn(true);
-    }else{
+    } else {
       setShareBtn(false);
     }
   }, [urlId]);
 
- 
   return (
     <div className="h-[50px] bg-transparent text-white flex justify-end items-center px-4">
       <div className="flex items-center gap-4">
@@ -104,7 +96,7 @@ function CodeHeader() {
           size="icon"
           className="rounded-full border border-solid border-2 border-white hover:border-none hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 ease-in-out transform hover:scale-110"
         >
-          {saveLoading ? (
+          {isLoading ? (
             <Loader className="animate-spin" />
           ) : (
             <>
@@ -112,48 +104,47 @@ function CodeHeader() {
             </>
           )}
         </Button>
-{shareBtn && (
-        <AlertDialog>
-          <AlertDialogTrigger className="flex flex-row gap-2 p-4 py-2 border border-solid border-2 border-white hover:border-none rounded-full hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black transition-all duration-300 ease-in-out transform hover:scale-110">
-            <ShareIcon className="w-5 h-5" />
-            <span>Share</span>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="bg-black text-white border border-gray-700 rounded-lg shadow-lg">
-            <AlertDialogHeader>
-              <AlertDialogTitle className="flex flex-row gap-2 items-center justify-center text-purple-500">
-                <Code />
-                Share Your Code!
-                <Code />
-              </AlertDialogTitle>
-            </AlertDialogHeader>
-            <AlertDialogDescription>
-              <div className="flex items-center gap-2 mt-4">
-                <input
-                  type="text"
-                  value={window.location.href}
-                  readOnly
-                  className="w-full px-4 py-2 rounded bg-gray-800 text-white border border-gray-500 focus:outline-none"
-                />
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(window.location.href);
-                    toast("URL has been Copied to clipboard!");
-                  }}
-                  className="p-2 rounded-full bg-gray-800 hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 ease-in-out transform hover:scale-110"
-                >
-                  <Copy className="w-5 h-5" />
-                </button>
-              </div>
-            </AlertDialogDescription>
-            <AlertDialogFooter className="mt-4">
-              <AlertDialogCancel className="px-4 py-2 rounded bg-gray-800 hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 ease-in-out transform hover:scale-110">
-                Cancel
-              </AlertDialogCancel>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-)
-}
+        {shareBtn && (
+          <AlertDialog>
+            <AlertDialogTrigger className="flex flex-row gap-2 p-4 py-2 border border-solid border-2 border-white hover:border-none rounded-full hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black transition-all duration-300 ease-in-out transform hover:scale-110">
+              <ShareIcon className="w-5 h-5" />
+              <span>Share</span>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="bg-black text-white border border-gray-700 rounded-lg shadow-lg">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="flex flex-row gap-2 items-center justify-center text-purple-500">
+                  <Code />
+                  Share Your Code!
+                  <Code />
+                </AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogDescription>
+                <div className="flex items-center gap-2 mt-4">
+                  <input
+                    type="text"
+                    value={window.location.href}
+                    readOnly
+                    className="w-full px-4 py-2 rounded bg-gray-800 text-white border border-gray-500 focus:outline-none"
+                  />
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(window.location.href);
+                      toast("URL has been Copied to clipboard!");
+                    }}
+                    className="p-2 rounded-full bg-gray-800 hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 ease-in-out transform hover:scale-110"
+                  >
+                    <Copy className="w-5 h-5" />
+                  </button>
+                </div>
+              </AlertDialogDescription>
+              <AlertDialogFooter className="mt-4">
+                <AlertDialogCancel className="px-4 py-2 rounded bg-gray-800 hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 ease-in-out transform hover:scale-110">
+                  Cancel
+                </AlertDialogCancel>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
 
         <div>
           <Select

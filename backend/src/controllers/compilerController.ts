@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { Code } from "../models/Code";
-
+import { fullCodeTypes } from "../types/compilerTypes";
 export const saveCode = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { fullCode } = req.body; 
+    const  fullCode:fullCodeTypes  = req.body;
     console.log(req.body)// Extract fullCode from the body
-    if (!fullCode || !fullCode.html || !fullCode.css || !fullCode.javascript) {
+    if ( !fullCode.html && !fullCode.css && !fullCode.javascript) {
       return res.status(400).json({ error: "Missing code data" });
     }
     

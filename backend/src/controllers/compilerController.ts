@@ -3,7 +3,8 @@ import { Code } from "../models/Code";
 
 export const saveCode = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { fullCode } = req.body; // Extract fullCode from the body
+    const { fullCode } = req.body; 
+    console.log(req.body)// Extract fullCode from the body
     if (!fullCode || !fullCode.html || !fullCode.css || !fullCode.javascript) {
       return res.status(400).json({ error: "Missing code data" });
     }

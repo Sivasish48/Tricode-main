@@ -28,7 +28,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useSaveCodeMutation } from "../redux/slices/api";
+import  {useSaveCodeMutation}  from "../redux/slices/api";
 
 
 function CodeHeader() {
@@ -48,6 +48,31 @@ function CodeHeader() {
 
   console.log("Full Code: ", fullCode);
 
+
+
+  const handleSave = async () => {
+    setSaveLoading(true); // Start loading
+    try {
+      console.log("Saving Full Code: ", fullCode);
+  
+      // Ensure fullCode structure matches the expected server payload
+      const response = await saveCode(fullCode).unwrap();
+  
+      console.log("Save Response: ", response);
+  
+      // Navigate if the API response includes a URL for redirection
+      if (response.url) {
+        navigate(`/compiler/${response.url}`, { replace: true });
+      }
+    } catch (error) {
+      console.error("Error saving code: ", error);
+    } finally {
+      setSaveLoading(false); // Stop loading
+    }
+  };
+  
+
+
   const loadCode = async () => {
     try {
       const response = await axios.post("http://localhost:5000/compiler/load", {
@@ -57,26 +82,6 @@ function CodeHeader() {
       console.log("Response: ", response.data);
     } catch (error) {
       console.log("error is " + error);
-    }
-  };
-
-  const handleSave = async () => {
-    setSaveLoading(true); // Start loading
-    try {
-      // const response = await axios.post("http://localhost:5000/compiler/save", {
-      //   fullCode: {
-      //     html: fullCode.html,
-      //     css: fullCode.css,
-      //     javascript: fullCode.javascript,
-      //   },
-      // });
-      // console.log("Response: ", response.data);
-      const response = await saveCode(fullCode).unwrap();
-      // navigate(`/compiler/${response.data.url}`, { replace: true });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSaveLoading(false); // Stop loading
     }
   };
 

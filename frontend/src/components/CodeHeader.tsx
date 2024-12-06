@@ -28,10 +28,11 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useSaveCodeMutation } from "../redux/slices/api";
+import { useSaveCodeMutation, useLoadCodeMutation } from "../redux/slices/api";
 import { showToast } from "../lib/error/handleError";
 function CodeHeader() {
   const [saveCode, { isLoading }] = useSaveCodeMutation();
+  const [loadCode] = useLoadCodeMutation();
   const { urlId } = useParams();
 
   const navigate = useNavigate();
@@ -66,13 +67,14 @@ function CodeHeader() {
     }
   };
 
-  const loadCode = async () => {
+  const loadTheCode = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/compiler/load", {
-        urlId: urlId,
-      });
-      dispatch(updateFullCode(response.data.fullCode));
-      console.log("Response: ", response.data);
+      if (urlId){
+        const response = await loadCode({urlId}).unwrap();
+      dispatch(updateFullCode(response.fullCode));
+      console.log("Response: ", response.fullCode);
+      } 
+    
     } catch (error) {
       console.log("error is " + error);
     }
@@ -80,7 +82,7 @@ function CodeHeader() {
 
   useEffect(() => {
     if (urlId) {
-      loadCode();
+      loadTheCode();
       setShareBtn(true);
     } else {
       setShareBtn(false);

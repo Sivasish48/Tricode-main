@@ -30,9 +30,10 @@ import mongoose from 'mongoose';
 export const loadCode = async (req: Request, res: Response) => {
   try {
     const { urlId } = req.body;
+    console.log(req.body);
 
     // Check if urlId is a valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(urlId)) {
+    if (!mongoose.Types.ObjectId.isValid(urlId as string)) {
       return res.status(400).json({ error: "Invalid URL ID format" });
     }
 

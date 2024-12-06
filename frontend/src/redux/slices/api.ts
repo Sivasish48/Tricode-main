@@ -16,9 +16,21 @@ export const api = createApi({
         body: fullCode,
       }),
     }),
-  }),
+    loadCode: builder.mutation<
+    {fullCode: compilerSliceStateType["fullCode"]},
+      { urlId: string }
+      >({
+        query: (body) => ({
+          url: `/compiler/load`,
+          method: "POST",
+          body: {urlId: body.urlId},
+        }),
+      }),
+    }),
+
+   
 });
 
 // Corrected export statement
-export const { useSaveCodeMutation } = api;
+export const { useSaveCodeMutation ,useLoadCodeMutation } = api;
 export default api;

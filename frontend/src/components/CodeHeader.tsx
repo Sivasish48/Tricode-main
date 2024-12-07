@@ -15,6 +15,7 @@ import { RootState } from "../redux/store";
 import { compilerSliceStateType } from "../redux/slices/CompilerSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { Code, Loader, Copy } from "lucide-react";
+import LoadingLad from "../loader/loader";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -25,7 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../components/ui/alert-dialog";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useSaveCodeMutation, useLoadCodeMutation } from "../redux/slices/api";
@@ -77,6 +78,7 @@ function CodeHeader() {
     
     } catch (error) {
       console.log("error is " + error);
+      showToast.error("Error loading code ");
     }
   };
 
@@ -89,6 +91,15 @@ function CodeHeader() {
     }
   }, [urlId]);
 
+   if (isLoading) {
+    return (
+      <div className="w-full h-[calc(100dvh-60px)] flex justify-end items-center ">
+        
+          <LoadingLad />
+         
+      </div>
+    );
+  }
   return (
     <div className="h-[50px] bg-transparent text-white flex justify-end items-center px-4">
       <div className="flex items-center gap-4">

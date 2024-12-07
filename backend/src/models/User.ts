@@ -4,6 +4,7 @@ interface IUserSchema {
   username: string;
   email: string;
   password: string;
+  savedCodes: Array<mongoose.Types.ObjectId>;
 }
 
 
@@ -23,7 +24,8 @@ username:{
   password:{
     type: String,
     required: true,
-}
+},
+savedCodes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Code" }],
 },{ timestamps: true });
 
 

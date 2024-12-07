@@ -3,6 +3,8 @@ import { User } from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
+import { Code } from "../models/Code";
+import { saveCode } from "./compilerController";
 
 const inputValidation = z.object({
   email: z.string().email().max(70),
@@ -89,7 +91,7 @@ export const login = async (req: Request, res: Response) => {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // Expires in 7 days
     });
 
-    return res.status(200).send({ message: "Login successful", user: existingUser, token: jwtToken });
+    return res.status(200).send({ message: "Login successful", username: existingUser.username, email:existingUser.email, token: jwtToken, saveCodes: existingUser.savedCodes });
   } catch (error) {
     return res.status(500).send({ message: "Error during login", error });
   }

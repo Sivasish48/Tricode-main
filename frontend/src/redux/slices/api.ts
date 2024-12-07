@@ -2,9 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { compilerSliceStateType } from "./CompilerSlice";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000",
-    
-   }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
   endpoints: (builder) => ({
     saveCode: builder.mutation<
       { url: string; status: string },
@@ -17,20 +15,29 @@ export const api = createApi({
       }),
     }),
     loadCode: builder.mutation<
-    {fullCode: compilerSliceStateType["fullCode"]},
+      { fullCode: compilerSliceStateType["fullCode"] },
       { urlId: string }
-      >({
-        query: (body) => ({
-          url: `/compiler/load`,
-          method: "POST",
-          body: {urlId: body.urlId},
-        }),
+    >({
+      query: (body) => ({
+        url: `/compiler/load`,
+        method: "POST",
+        body: { urlId: body.urlId },
       }),
     }),
-
-   
+    login: builder.mutation<
+      UserInfoInterface,
+      { userId: string; password: string }
+    >({
+      query: (body) => ({
+        url: `/api/user/login`,
+        method: "POST",
+        body: body,
+      }),
+    }),
+  }),
 });
 
 // Corrected export statement
-export const { useSaveCodeMutation ,useLoadCodeMutation } = api;
+export const { useSaveCodeMutation, useLoadCodeMutation, useLoginMutation } =
+  api;
 export default api;

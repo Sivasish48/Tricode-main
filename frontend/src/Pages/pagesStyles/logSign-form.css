@@ -1,15 +1,15 @@
 /* From Uiverse.io by 3bdel3ziz-T */ 
 .card {
-    --main-col: #ffeba7;
+    --main-col:var(--main-col);
     --bg-col: #000000;
-    --bg-field: #1f2029;
+    --bg-field: #0c1b9e00;
   
-    width: 290px;
+    width: 350px;
     padding: 1.9rem 1.2rem;
     text-align: center;
     background: var(--bg-col);
     border-radius: 10px;
-    border: 1px solid var(--main-col);
+    border: 3px solid var(--main-col);
     user-select: none;
   }
   

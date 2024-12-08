@@ -8,7 +8,6 @@ import { Button } from "../components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,7 +17,7 @@ import { Input } from "../components/ui/input";
 
 function Login() {
   const formSchema = z.object({
-    userId: z.string().min(2).max(50),
+    userId: z.string().min(4).max(40),
     password: z.string().min(4),
   });
 
@@ -51,6 +50,7 @@ function Login() {
               name="userId"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel className="text-white">Username or Password</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter your username or email"
@@ -84,8 +84,11 @@ function Login() {
             />
 
             {/* Submit Button */}
-           
-<Button className="custom-btn">Login</Button>
+            <div className="flex justify-center mt-6">
+              <Button className="custom-btn">
+                <span className="text">Login</span>
+              </Button>
+            </div>
           </form>
         </Form>
       </div>

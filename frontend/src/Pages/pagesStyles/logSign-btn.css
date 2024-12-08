@@ -1,61 +1,53 @@
-/* Custom Button Class with Adjusted Padding, Margin, Colors, and Slow Rotation */
+/* Custom Button Class with Initial Black Background and Hover Gradient */
 .custom-btn {
-    --border-radius: 15px;
-    --border-width: 4px;
-    appearance: none;
-    position: relative;
-    padding: 1.25em 2.5em;  /* Increased padding for larger button */
-    margin: 0.5em;  /* Optional margin for spacing around the button */
+    align-items: center;
+    background-color: rgb(5, 6, 45); /* Initial black background */
+    background-image:linear-gradient(144deg, #af40ff, #970b90 50%, #bd0b75);
     border: 0;
-    background-color: #000000;  /* Darker background to match a modern theme */
-    font-family: "Roboto", Arial, "Segoe UI", sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    color: #ffffff;  /* White text color */
-    z-index: 2;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
     box-sizing: border-box;
-    text-align: center;
-    cursor: pointer;  /* Add pointer cursor for interactivity */
-}
-
-.custom-btn::after {
-    --m-i: linear-gradient(#0b037d, #09066b);
-    --m-o: content-box, padding-box;
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
+    color: #ffffff;
+    display: flex;
+    font-size: 18px;
+    justify-content: center; /* Centering text horizontally */
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s;
+    height: 50px; /* You can adjust the height as needed */
+  }
+  
+  .custom-btn:active,
+  .custom-btn:hover {
+    outline: 0;
+    background-image: linear-gradient(144deg, #af40ff, #970b90 50%, #bd0b75); /* Gradient on hover */
+  }
+  
+  .custom-btn span {
+    background-color: rgb(5, 6, 45); /* Initial black background for span */
+    padding: 16px 24px;
+    border-radius: 6px;
     width: 100%;
     height: 100%;
-    padding: var(--border-width);
-    border-radius: var(--border-radius);
-    background-image: conic-gradient(
-              /* Teal */
-        #0511f5      /* Dark blue */
-              /* Blue (to close the circle) */
-    );
-    -webkit-mask-image: var(--m-i), var(--m-i);
-    mask-image: var(--m-i), var(--m-i);
-    -webkit-mask-origin: var(--m-o);
-    mask-origin: var(--m-o);
-    -webkit-mask-clip: var(--m-o);
-    mask-composite: exclude;
-    -webkit-mask-composite: destination-out;
-    filter: hue-rotate(0);
-    animation: rotate-hue 2s linear infinite;  /* Slowed down the rotation */
-    animation-play-state: paused;
-}
-
-.custom-btn:hover::after {
-    animation-play-state: running;
-}
-
-@keyframes rotate-hue {
-    to {
-        filter: hue-rotate(1turn); /* One full rotation */
-    }
-}
-
-.custom-btn:active {
-    --border-width: 2px;  /* Slightly smaller border when active */
-}
+    transition: background 300ms ease;
+    display: flex;
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+  }
+  
+  .custom-btn:hover span {
+    background: none; /* Remove background on hover */
+  }
+  
+  .custom-btn:active {
+    transform: scale(0.9);
+  }
+  

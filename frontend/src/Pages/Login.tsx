@@ -1,70 +1,96 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
- const navigate = useNavigate();
+import "./pagesStyles/logSign-bg.css";
+import "./pagesStyles/logSign-form.css";
+import "./pagesStyles/logSign-btn.css";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "../components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../components/ui/form";
+import { Input } from "../components/ui/input";
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log({ email, password });
-  };
+function Login() {
+  const formSchema = z.object({
+    userId: z.string().min(2).max(50),
+    password: z.string().min(4),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      userId: "",
+      password: "",
+    },
+  });
+
+  function handleLogin(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-black">
-      <div className="w-[440px] h-[400px] p-8 flex flex-col justify-center bg-black shadow-lg rounded-lg">
-        
-        {/* Login Header */}
-        <div className="text-center mb-10">
-          <h2 className="text-white text-3xl font-semibold">Login</h2>
-        </div>
-
-        {/* Input Fields */}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-5">
-            <input
-              type="text"
-              placeholder="Email"
-              className="w-full h-[60px] text-lg px-6 border-b-2 border-gray-400 rounded-full shadow-sm bg-black text-white placeholder-gray-400 focus:outline-none transition-transform duration-300 focus:scale-105"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+    <div className="log-sign-bg w-full h-screen flex justify-center items-center px-4">
+      <div className="card">
+        <h2 className="text-white text-3xl font-bold text-center mb-6">
+          Login
+        </h2>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleLogin)}
+            className="space-y-6"
+          >
+            {/* User ID Input */}
+            <FormField
+              control={form.control}
+              name="userId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your username or email"
+                      className="bg-gray-800/50 border border-gray-700 text-white rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none transition-all duration-300"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="mb-5">
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full h-[60px] text-lg px-6 border-b-2 border-gray-400 rounded-full shadow-sm bg-black text-white placeholder-gray-400 focus:outline-none transition-transform duration-300 focus:scale-105"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+
+            {/* Password Input */}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-white">Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      className="bg-gray-800/50 border border-gray-700 text-white rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none transition-all duration-300"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
 
-          {/* Submit Button */}
-          <div className="relative mb-5">
-            <button
-              type="submit"
-              className="w-full h-[60px] bg-gray-700 rounded-full text-white font-medium transition-transform duration-300 hover:scale-105 hover:bg-gray-600"
-            >
-             Login
-            </button>
-          </div>
-        </form>
-
-        {/* Sign Up Link */}
-        <div className="text-center text-gray-400 text-sm">
-          <p>
-           Dont have an account?{" "}
-            <a href="#" className="font-semibold text-white hover:underline" onClick={() => navigate("/signup")}>
-              Sign Up 
-            </a>
-          </p>
-        </div>
+            {/* Submit Button */}
+           
+<Button className="custom-btn">Login</Button>
+          </form>
+        </Form>
       </div>
     </div>
   );
-};
+}
 
 export default Login;

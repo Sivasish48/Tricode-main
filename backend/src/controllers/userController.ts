@@ -13,8 +13,7 @@ const inputValidation = z.object({
 });
 
 const inputValidationLogin = z.object({
-  email: z.string().email().max(70).optional(),
-  username: z.string().min(3).max(8).optional(),
+  userId: z.string().min(4).max(40),
   password: z.string().min(4),
 });
 
@@ -65,13 +64,20 @@ export const login = async (req: Request, res: Response) => {
       .status(400)
       .send({ message: "Invalid input", errors: parsedInput.error });
   }
-  const { email, username, password } = parsedInput.data;
+  const { userId, password } = parsedInput.data;
 
   try {
-    // Check for user using email or username
-    const existingUser = await User.findOne({
-      $or: [{ email }, { username }],
-    });
+    let existingUser = undefined
+   
+    if(userId.includes("@")){
+      existingUser = await User.findOne({
+        email: userId,
+      });
+    }else{
+      existingUser = await User.findOne({
+        username: userId,
+      });
+    }
 
     if (!existingUser) {
       return res.status(400).send({ message: "User does not exist" });

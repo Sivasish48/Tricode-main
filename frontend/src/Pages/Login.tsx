@@ -14,8 +14,12 @@ import {
   FormMessage,
 } from "../components/ui/form";
 import { Input } from "../components/ui/input";
+import { useLoginMutation } from "../redux/slices/api";
+import { showToast } from "../lib/error/handleError";
+import { Loader2 } from "lucide-react";
 
 function Login() {
+  const [login, { isLoading }] = useLoginMutation();
   const formSchema = z.object({
     userId: z.string().min(4).max(40),
     password: z.string().min(4),
@@ -29,8 +33,17 @@ function Login() {
     },
   });
 
-  function handleLogin(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function handleLogin(values: z.infer<typeof formSchema>) {
+    
+    try {
+      const response = await login(values).unwrap();
+      console.log(response);
+      showToast.success("Login Successful");
+    } catch (error) {
+      console.log(error);
+      showToast.error("Invalid Credentials");
+    }
+    
   }
 
   return (
@@ -86,7 +99,7 @@ function Login() {
             {/* Submit Button */}
             <div className="flex justify-center mt-6">
               <Button className="custom-btn">
-                <span className="text">Login</span>
+                {isLoading? <Loader2 className="animate-spin" /> :<span className="text">Login</span>}
               </Button>
             </div>
           </form>

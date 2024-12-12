@@ -17,9 +17,19 @@ import { Input } from "../components/ui/input";
 import { useLoginMutation } from "../redux/slices/api";
 import { showToast } from "../lib/error/handleError";
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 
 function Login() {
+  const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const formSchema = z.object({
     userId: z.string().min(4).max(40),
     password: z.string().min(4),
@@ -39,6 +49,7 @@ function Login() {
       const response = await login(values).unwrap();
       console.log(response);
       showToast.success("Login Successful");
+      navigate("/compiler");
     } catch (error) {
       console.log(error);
       showToast.error("Invalid Credentials");
@@ -50,7 +61,7 @@ function Login() {
     <div className="log-sign-bg w-full h-screen flex justify-center items-center px-4">
       <div className="card">
         <h2 className="text-white text-3xl font-bold text-center mb-6">
-          Login
+          Welcome Back!
         </h2>
         <Form {...form}>
           <form
@@ -82,17 +93,26 @@ function Login() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white">Password</FormLabel>
-                  <FormControl>
+                <FormLabel className="text-white">Password</FormLabel>
+                <FormControl>
+                  <div className="relative">
                     <Input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
-                      className="bg-gray-800/50 border border-gray-700 text-white rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none transition-all duration-300"
+                      className="bg-gray-800/50 border border-gray-700 text-white rounded-md focus:ring-2 focus:ring-violet-500 focus:outline-none transition-all duration-300 pr-10"
                       {...field}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                    <button
+                      type="button"
+                      className="absolute right-3 top-3 text-gray-400 hover:text-white focus:outline-none"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
               )}
             />
 
@@ -104,6 +124,14 @@ function Login() {
             </div>
           </form>
         </Form>
+        <div>
+          <p className="text-white text-center text-sm mt-6">
+            Don't have an account?{" "}
+            <a className="text-violet-500 hover:text-violet-400 " href="/signup">
+              Sign Up
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

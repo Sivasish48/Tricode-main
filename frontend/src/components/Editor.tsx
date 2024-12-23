@@ -8,8 +8,9 @@ import CodeHeader from "./CodeHeader";
 import CodeEditor from "../components/CodeEditor";
 import tricodeLogo from "../../public/tricodeLogo.png";
 import RenderCode from "./RenderCode.tsx";
-
+import { useNavigate } from "react-router-dom";
 export default function Editor() {
+  const navigate = useNavigate();
   return (
     <div>
       {/* Top Header with Logo and Account Creation Button */}
@@ -20,7 +21,8 @@ export default function Editor() {
         </div>
 
         {/* Account Creation Button */}
-        <button className="px-4 py-2 text-sm font-semibold bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+        <button className="px-4 py-2 text-sm font-semibold border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+          onClick={() => navigate("/login")}>
           Create Account
         </button>
       </div>

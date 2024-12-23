@@ -74,7 +74,7 @@ function Login() {
               name="userId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white">Username or Password</FormLabel>
+                  <FormLabel className="text-white">Username or email</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter your username or email"

@@ -119,7 +119,7 @@ function CodeHeader() {
         </Button>
         {shareBtn && (
           <AlertDialog>
-            <AlertDialogTrigger className="flex flex-row gap-2 p-4 py-2 border border-solid border-2 border-white hover:border-none rounded-full hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black transition-all duration-300 ease-in-out transform hover:scale-110">
+            <AlertDialogTrigger className="flex flex-row gap-2 p-3 py-2 mt-2 border border-solid border-2 border-white hover:border-none rounded-full hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black transition-all duration-300 ease-in-out transform hover:scale-110">
               <ShareIcon className="w-5 h-5" />
               <span>Share</span>
             </AlertDialogTrigger>

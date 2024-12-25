@@ -3,8 +3,10 @@ import { User } from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
-import { Code } from "../models/Code";
-import { saveCode } from "./compilerController";
+// import { Code } from "../models/Code";
+// import { saveCode } from "./compilerController";
+import { AuthRequest } from "../middlewares/verifyToken";
+
 
 const inputValidation = z.object({
   email: z.string().email().max(70),
@@ -136,5 +138,14 @@ export const logout = async (req: Request, res: Response) => {
     return res.status(200).send({ message: "Logout successful" });
   } catch (error) {
     res.status(500).send({ message: "Error during logout", error });
+  }
+};
+
+export const userDetails = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req._id; 
+    return res.status(200).send({ userId });
+  } catch (error) {
+    return res.status(500).send({ message: "Error during user details", error });
   }
 };

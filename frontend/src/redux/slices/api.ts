@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { compilerSliceStateType } from "./CompilerSlice";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000"  , credentials: "include",}),
   endpoints: (builder) => ({
     saveCode: builder.mutation<
       { url: string; status: string },
@@ -34,10 +34,16 @@ export const api = createApi({
         body: body,
       }),
     }),
+    userDetails:builder.query<UserInfoInterface,void>({
+      query: () => ({
+        url: `/api/user/user-details`,
+        cache:"no-store"
+      }),
+    }),
   }),
 });
 
 // Corrected export statement
-export const { useSaveCodeMutation, useLoadCodeMutation, useLoginMutation } =
+export const { useSaveCodeMutation, useLoadCodeMutation, useLoginMutation, useUserDetailsQuery } =
   api;
 export default api;

@@ -1,21 +1,28 @@
-import './index.css';
+import "./index.css";
 // import Header from './components/Header';
-import Home from './Pages/Home';
-import Compiler from './Pages/Compiler';
-import NotFound from './Pages/NotFound';
-import Landing from './Pages/Landing';
-import { Routes, Route } from 'react-router-dom';
-import  Login  from './Pages/Login';
-import  SignUp  from './Pages/SignUp';
-import { Toaster } from './components/ui/sonner';
-function App () {
-  
+import Home from "./Pages/Home";
+import Compiler from "./Pages/Compiler";
+import NotFound from "./Pages/NotFound";
+import Landing from "./Pages/Landing";
+import { Routes, Route } from "react-router-dom";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp";
+import { Toaster } from "./components/ui/sonner";
+import { useUserDetailsQuery } from "./redux/slices/api";
+import { useEffect } from "react";
 
+function App() {
+  const { data, isSuccess, isError } = useUserDetailsQuery();
+
+  useEffect(() => {
+    console.log("data:", data);
+    console.log("isSuccess:", isSuccess);
+    console.log("isError:", isError);
+  }, [data, isSuccess, isError]);
   return (
     <>
-     
       {/* {location.pathname !== '/' && <Header />} */}
-      <Toaster position='bottom-right' theme="dark" />
+      <Toaster position="bottom-right" theme="dark" />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />

@@ -142,9 +142,21 @@ export const logout = async (req: Request, res: Response) => {
 };
 
 export const userDetails = async (req: AuthRequest, res: Response) => {
+  const userId = req._id;
   try {
-    const userId = req._id; 
-    return res.status(200).send({ userId });
+    const user = await User.findById(userId);
+    
+    if (!user) {
+      return res.status(400).send({ message: "User does not exist" });
+    }
+
+    return res.status(200).send(
+      {
+        username: user.username,
+        email: user.email,
+        saveCodes: user.savedCodes,
+      }
+    );
   } catch (error) {
     return res.status(500).send({ message: "Error during user details", error });
   }

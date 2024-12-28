@@ -10,15 +10,37 @@ import SignUp from "./Pages/SignUp";
 import { Toaster } from "./components/ui/sonner";
 import { useUserDetailsQuery } from "./redux/slices/api";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { currentUser, isLoggedIn } from "./redux/slices/appSlice";
 
-function App() {
-  const { data, isSuccess, isError } = useUserDetailsQuery();
+export default function App() {
+  const { data, error } = useUserDetailsQuery();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("data:", data);
-    console.log("isSuccess:", isSuccess);
-    console.log("isError:", isError);
-  }, [data, isSuccess, isError]);
+    if (data) {
+      const userInfo: UserInfoInterface = {
+        userId: data.userId, 
+        username: data.username,
+        email: data.email,
+        savedCodes: data.savedCodes,
+      };
+      dispatch(currentUser(userInfo));
+      console.log("data:", data);
+      dispatch(isLoggedIn(true));
+    } else if (error) {
+      const emptyUserInfo: UserInfoInterface = {
+        userId: false, 
+        username: "",
+        email: "",
+        savedCodes: [],
+      };
+      dispatch(currentUser(emptyUserInfo)); 
+      dispatch(isLoggedIn(false));
+    }
+  }, [data, error]);
+  
+  
   return (
     <>
       {/* {location.pathname !== '/' && <Header />} */}
@@ -36,4 +58,3 @@ function App() {
   );
 }
 
-export default App;

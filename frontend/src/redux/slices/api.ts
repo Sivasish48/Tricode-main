@@ -40,10 +40,16 @@ export const api = createApi({
         cache:"no-store"
       }),
     }),
+    logout: builder.mutation<void,void>({
+      query: () => ({
+        url: `/api/user/logout`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
 // Corrected export statement
-export const { useSaveCodeMutation, useLoadCodeMutation, useLoginMutation, useUserDetailsQuery } =
+export const { useSaveCodeMutation, useLoadCodeMutation, useLoginMutation, useUserDetailsQuery, useLogoutMutation } =
   api;
 export default api;

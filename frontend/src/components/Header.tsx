@@ -20,7 +20,7 @@ function Header() {
         <Profile/>
         </> : <>
         
-          <button className="px-4 py-2 text-sm font-semibold border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+          <button className="px-4 py-2 text-sm font-semibold border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-black"
           onClick={() => navigate("/login")}>
           Create Account
         </button></>}

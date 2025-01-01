@@ -52,7 +52,7 @@ export function Profile() {
         <div className="flex flex-col gap-4">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white w-full">
+              <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-black w-full">
                 <LogOut className="mr-2 h-4 w-4" /> Logout
               </Button>
             </AlertDialogTrigger>
@@ -72,7 +72,7 @@ export function Profile() {
             </AlertDialogContent>
           </AlertDialog>
           <SheetClose asChild>
-            <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white w-full">
+            <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-black w-full">
               Saved Codes
             </Button>
           </SheetClose>

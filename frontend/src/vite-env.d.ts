@@ -8,3 +8,14 @@ interface UserInfoInterface {
     email: string,
     savedCodes: Array<string>,
 }
+
+interface loginCredentials {
+  userId: string;
+  password: string;
+}
+
+interface signupCredentails {
+  username: string;
+  email: string;
+  password: string;
+}

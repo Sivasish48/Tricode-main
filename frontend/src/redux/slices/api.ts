@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { compilerSliceStateType } from "./CompilerSlice";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000"  , credentials: "include",}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5000",
+    credentials: "include",
+  }),
   endpoints: (builder) => ({
     saveCode: builder.mutation<
       { url: string; status: string },
@@ -24,23 +27,29 @@ export const api = createApi({
         body: { urlId: body.urlId },
       }),
     }),
-    login: builder.mutation<
-      UserInfoInterface,
-      { userId: string; password: string }
-    >({
+    login: builder.mutation<UserInfoInterface, loginCredentials>({
       query: (body) => ({
         url: `/api/user/login`,
         method: "POST",
         body: body,
       }),
     }),
-    userDetails:builder.query<UserInfoInterface,void>({
-      query: () => ({
-        url: `/api/user/user-details`,
-        cache:"no-store"
+    signup: builder.mutation<
+    UserInfoInterface, 
+    signupCredentails>({
+      query: (body) => ({
+        url: `/api/user/signup`,
+        method: "POST",
+        body: body,
       }),
     }),
-    logout: builder.mutation<void,void>({
+    userDetails: builder.query<UserInfoInterface, void>({
+      query: () => ({
+        url: `/api/user/user-details`,
+        cache: "no-store",
+      }),
+    }),
+    logout: builder.mutation<void, void>({
       query: () => ({
         url: `/api/user/logout`,
         method: "POST",
@@ -50,6 +59,12 @@ export const api = createApi({
 });
 
 // Corrected export statement
-export const { useSaveCodeMutation, useLoadCodeMutation, useLoginMutation, useUserDetailsQuery, useLogoutMutation } =
-  api;
+export const {
+  useSaveCodeMutation,
+  useLoadCodeMutation,
+  useLoginMutation,
+  useUserDetailsQuery,
+  useLogoutMutation,
+  useSignupMutation,
+} = api;
 export default api;

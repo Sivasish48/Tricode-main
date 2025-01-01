@@ -20,12 +20,14 @@ import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { currentUser, isLoggedIn } from "../redux/slices/appSlice";
 
 function Login() {
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
   const [showPassword, setShowPassword] = useState(false);
-
+  const dispatch = useDispatch();
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -49,6 +51,8 @@ function Login() {
       const response = await login(values).unwrap();
       console.log(response);
       showToast.success("Login Successful");
+      dispatch(currentUser(response))
+      dispatch(isLoggedIn(true));
       navigate("/compiler");
     } catch (error) {
       console.log(error);

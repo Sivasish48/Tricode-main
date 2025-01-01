@@ -7,7 +7,6 @@ import { z } from "zod";
 // import { saveCode } from "./compilerController";
 import { AuthRequest } from "../middlewares/verifyToken";
 
-
 const inputValidation = z.object({
   email: z.string().email().max(70),
   username: z.string().min(3).max(8),
@@ -31,16 +30,15 @@ export const signup = async (req: Request, res: Response) => {
 
   try {
     // Check if the user already exists by email or username
+
     const existingUser = await User.findOne({
       $or: [{ email }, { username }],
     });
 
     if (existingUser) {
-      return res
-        .status(400)
-        .send({
-          message: "User already exists with the given email or username",
-        });
+      return res.status(400).send({
+        message: "User already exists with the given email or username",
+      });
     }
 
     const salt = await bcrypt.genSalt();
@@ -52,7 +50,37 @@ export const signup = async (req: Request, res: Response) => {
       password: hashedPassword,
     });
 
-    return res.status(201).send({ message: "User created successfully", user });
+    const jwtKey = process.env.JWT_KEY as string;
+    if (!jwtKey) {
+      return res.status(500).send({
+        message: "JWT secret key is missing in environment variables",
+      });
+    }
+
+    const jwtToken = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        username: user.username,
+      },
+      jwtKey
+    );
+
+    res.cookie("token", jwtToken, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "lax",
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // Expires in 7 days
+    });
+
+    return res
+      .status(201)
+      .send({
+        message: "Account created successfully",
+        username: user.username,
+        email: user.email,
+        saveCodes: user.savedCodes,
+      });
   } catch (error) {
     return res.status(500).send({ message: "Error creating user", error });
   }
@@ -69,13 +97,13 @@ export const login = async (req: Request, res: Response) => {
   const { userId, password } = parsedInput.data;
 
   try {
-    let existingUser = undefined
-   
-    if(userId.includes("@")){
+    let existingUser = undefined;
+
+    if (userId.includes("@")) {
       existingUser = await User.findOne({
         email: userId,
       });
-    }else{
+    } else {
       existingUser = await User.findOne({
         username: userId,
       });
@@ -95,11 +123,9 @@ export const login = async (req: Request, res: Response) => {
 
     const jwtKey = process.env.JWT_KEY as string;
     if (!jwtKey) {
-      return res
-        .status(500)
-        .send({
-          message: "JWT secret key is missing in environment variables",
-        });
+      return res.status(500).send({
+        message: "JWT secret key is missing in environment variables",
+      });
     }
 
     const jwtToken = jwt.sign(
@@ -118,15 +144,13 @@ export const login = async (req: Request, res: Response) => {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // Expires in 7 days
     });
 
-    return res
-      .status(200)
-      .send({
-        message: "Login successful",
-        username: existingUser.username,
-        email: existingUser.email,
-        token: jwtToken,
-        saveCodes: existingUser.savedCodes,
-      });
+    return res.status(200).send({
+      message: "Login successful",
+      username: existingUser.username,
+      email: existingUser.email,
+      token: jwtToken,
+      saveCodes: existingUser.savedCodes,
+    });
   } catch (error) {
     return res.status(500).send({ message: "Error during login", error });
   }
@@ -145,19 +169,19 @@ export const userDetails = async (req: AuthRequest, res: Response) => {
   const userId = req._id;
   try {
     const user = await User.findById(userId);
-    
+
     if (!user) {
       return res.status(400).send({ message: "User does not exist" });
     }
 
-    return res.status(200).send(
-      {
-        username: user.username,
-        email: user.email,
-        saveCodes: user.savedCodes,
-      }
-    );
+    return res.status(200).send({
+      username: user.username,
+      email: user.email,
+      saveCodes: user.savedCodes,
+    });
   } catch (error) {
-    return res.status(500).send({ message: "Error during user details", error });
+    return res
+      .status(500)
+      .send({ message: "Error during user details", error });
   }
 };

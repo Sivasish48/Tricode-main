@@ -14,7 +14,7 @@ import {
 import { RootState } from "../redux/store";
 import { compilerSliceStateType } from "../redux/slices/CompilerSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { Code, Loader, Copy } from "lucide-react";
+import { Code, Copy, ShareIcon, SaveIcon } from "lucide-react";
 import LoadingLad from "../loader/loader";
 import {
   AlertDialog,
@@ -70,12 +70,11 @@ function CodeHeader() {
 
   const loadTheCode = async () => {
     try {
-      if (urlId){
-        const response = await loadCode({urlId}).unwrap();
-      dispatch(updateFullCode(response.fullCode));
-      console.log("Response: ", response.fullCode);
-      } 
-    
+      if (urlId) {
+        const response = await loadCode({ urlId }).unwrap();
+        dispatch(updateFullCode(response.fullCode));
+        console.log("Response: ", response.fullCode);
+      }
     } catch (error) {
       console.log("error is " + error);
       showToast.error("Error loading code ");
@@ -91,75 +90,23 @@ function CodeHeader() {
     }
   }, [urlId]);
 
-   if (isLoading) {
+  if (isLoading) {
     return (
       <div className="w-full h-[calc(100dvh-60px)] flex justify-end items-center ">
-        
-          <LoadingLad />
-         
+        <LoadingLad />
       </div>
     );
   }
-  return (
-    <div className="h-[50px] bg-transparent text-white flex justify-end items-center px-4">
-      <div className="flex items-center gap-4">
-        <Button
-          onClick={handleSave}
-          variant="ghost"
-          size="icon"
-          className="rounded-full border border-solid border-2 border-white hover:border-none hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 ease-in-out transform hover:scale-110"
-        >
-          {isLoading ? (
-            <Loader className="animate-spin" />
-          ) : (
-            <>
-              <SaveIcon className="w-5 h-5" />
-            </>
-          )}
-        </Button>
-        {shareBtn && (
-          <AlertDialog>
-            <AlertDialogTrigger className="flex flex-row gap-2 p-3 py-2 mt-2 border border-solid border-2 border-white hover:border-none rounded-full hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black transition-all duration-300 ease-in-out transform hover:scale-110">
-              <ShareIcon className="w-5 h-5" />
-              <span>Share</span>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="bg-black text-white border border-gray-700 rounded-lg shadow-lg">
-              <AlertDialogHeader>
-                <AlertDialogTitle className="flex flex-row gap-2 items-center justify-center text-purple-500">
-                  <Code />
-                  Share Your Code!
-                  <Code />
-                </AlertDialogTitle>
-              </AlertDialogHeader>
-              <AlertDialogDescription>
-                <div className="flex items-center gap-2 mt-4">
-                  <input
-                    type="text"
-                    value={window.location.href}
-                    readOnly
-                    className="w-full px-4 py-2 rounded bg-gray-800 text-white border border-gray-500 focus:outline-none"
-                  />
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(window.location.href);
-                      toast("URL has been Copied to clipboard!");
-                    }}
-                    className="p-2 rounded-full bg-gray-800 hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 ease-in-out transform hover:scale-110"
-                  >
-                    <Copy className="w-5 h-5" />
-                  </button>
-                </div>
-              </AlertDialogDescription>
-              <AlertDialogFooter className="mt-4">
-                <AlertDialogCancel className="px-4 py-2 rounded bg-gray-800 hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 ease-in-out transform hover:scale-110">
-                  Cancel
-                </AlertDialogCancel>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        )}
 
-        <div>
+  return (
+    <header className="flex items-center justify-between px-6 py-4 bg-transparent text-white shadow-md">
+      {/* Buttons and Dropdown at the End */}
+      <div className="flex items-center gap-4">
+        {/* Choose Language Dropdown */}
+        <div className="flex items-center">
+          <label htmlFor="language" className="mr-2">
+            Choose Language:
+          </label>
           <Select
             defaultValue={currentLanguage}
             onValueChange={(value) => {
@@ -170,7 +117,7 @@ function CodeHeader() {
               );
             }}
           >
-            <SelectTrigger className="w-[180px] bg-dark text-white">
+            <SelectTrigger className="w-[180px] ">
               <SelectValue placeholder="Select a language" />
             </SelectTrigger>
             <SelectContent className="bg-dark text-white">
@@ -195,51 +142,61 @@ function CodeHeader() {
             </SelectContent>
           </Select>
         </div>
+
+        {/* Save Button */}
+        <Button
+          onClick={handleSave}
+          variant="ghost"
+          className="flex items-center gap-2 px-4 py-2 border border-white rounded-full hover:border-none hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black transition-all duration-300 transform hover:scale-110"
+        >
+          <SaveIcon className="w-5 h-5" />
+          <span className="text-sm font-medium">Save</span>
+        </Button>
+
+        {/* Share Button */}
+        <AlertDialog>
+          <AlertDialogTrigger className="flex items-center gap-2 px-4 py-2 border border-white rounded-full hover:border-none hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black transition-all duration-300 transform hover:scale-110">
+            <ShareIcon className="w-5 h-5" />
+            <span className="text-sm font-medium">Share</span>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="bg-black text-white border border-gray-700 rounded-lg shadow-lg">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="flex items-center justify-center text-purple-500">
+                <Code className="mr-2" />
+                Share Your Code!
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogDescription>
+              <div className="flex items-center gap-2 mt-4">
+                {/* Share URL Input */}
+                <input
+                  type="text"
+                  value={window.location.href}
+                  readOnly
+                  className="w-full px-4 py-2 rounded bg-gray-800 text-white border border-gray-500 focus:outline-none"
+                />
+                {/* Copy to Clipboard Button */}
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    showToast.success("URL has been copied to clipboard!");
+                  }}
+                  className="p-2 rounded-full bg-gray-800 hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 transform hover:scale-110"
+                >
+                  <Copy className="w-5 h-5" />
+                </button>
+              </div>
+            </AlertDialogDescription>
+            <AlertDialogFooter className="mt-4">
+              <AlertDialogCancel className="px-4 py-2 rounded bg-gray-800 hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300 transform hover:scale-110">
+                Cancel
+              </AlertDialogCancel>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
-    </div>
+    </header>
   );
 }
 
 export default CodeHeader;
-
-function SaveIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
-      <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7" />
-      <path d="M7 3v4a1 1 0 0 0 1 1h7" />
-    </svg>
-  );
-}
-
-function ShareIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-      <polyline points="16 6 12 2 8 6" />
-      <line x1="12" x2="12" y1="2" y2="15" />
-    </svg>
-  );
-}

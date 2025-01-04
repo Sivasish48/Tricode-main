@@ -14,7 +14,7 @@ import {
 import { RootState } from "../redux/store";
 import { compilerSliceStateType } from "../redux/slices/CompilerSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { Code, Copy, ShareIcon, SaveIcon } from "lucide-react";
+import { Code, Copy, ShareIcon, SaveIcon, MonitorDown } from "lucide-react";
 import LoadingLad from "../loader/loader";
 import {
   AlertDialog,
@@ -48,6 +48,51 @@ function CodeHeader() {
   );
 
   console.log("Full Code: ", fullCode);
+
+  const handlDownload = async () => {
+    const htmlCode = new Blob([fullCode.html], { type: "text/html" });
+    const cssCode = new Blob([fullCode.css], { type: "text/css" });
+    const javascriptCode = new Blob([fullCode.javascript], {
+      type: "text/javascript",
+    });
+
+    const htmlLink = document.createElement("a");
+    const cssLink = document.createElement("a");
+    const javascriptLink = document.createElement("a");
+
+    htmlLink.href = URL.createObjectURL(htmlCode);
+    htmlLink.download = "index.html";
+    document.body.appendChild(htmlLink);
+
+    cssLink.href = URL.createObjectURL(cssCode);
+    cssLink.download = "style.css";
+    document.body.appendChild(cssLink);
+
+    javascriptLink.href = URL.createObjectURL(javascriptCode);
+    javascriptLink.download = "script.js";
+    document.body.appendChild(javascriptLink);
+
+    if (fullCode.html === "" && fullCode.css === "" && fullCode.javascript === "") {
+      showToast.error("No code to download");
+      return;
+    }
+
+    if (fullCode.html !== "") {
+      htmlLink.click();
+    }
+    if (fullCode.css !== "") {
+      cssLink.click();
+    }
+    if (fullCode.javascript !== "") {
+      javascriptLink.click();
+    }
+
+    document.body.removeChild(htmlLink);
+    document.body.removeChild(cssLink);
+    document.body.removeChild(javascriptLink);
+
+    showToast.success("Code Downloaded Successfully");
+  };
 
   const handleSave = async () => {
     try {
@@ -151,6 +196,14 @@ function CodeHeader() {
         >
           <SaveIcon className="w-5 h-5" />
           <span className="text-sm font-medium">Save</span>
+        </Button>
+
+        <Button
+          onClick={handlDownload}
+          variant="ghost"
+          className="flex items-center gap-2 px-4 py-2 border border-white rounded-full hover:border-none hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black transition-all duration-300 transform hover:scale-110"
+        >
+          <MonitorDown className="w-5 h-5" />
         </Button>
 
         {/* Share Button */}

@@ -4,7 +4,7 @@ import {
   SheetClose,
   SheetContent,
   SheetTrigger,
-} from "../components/ui/sheet"; // Corrected imports
+} from "../components/ui/sheet"; 
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,8 +37,9 @@ export function Profile() {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-black">
+      {/* Ensure Single Child for SheetTrigger */}
+      <SheetTrigger>
+        <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-black font-semibold">
           Profile
         </Button>
       </SheetTrigger>
@@ -51,8 +52,8 @@ export function Profile() {
         <div className="flex flex-col gap-4 py-4"></div>
         <div className="flex flex-col gap-4">
           <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-black w-full">
+            <AlertDialogTrigger>
+              <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold w-full">
                 <LogOut className="mr-2 h-4 w-4" /> Logout
               </Button>
             </AlertDialogTrigger>
@@ -64,16 +65,29 @@ export function Profile() {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="bg-gradient-to-r from-purple-500 to-pink-500 text-black border-none">Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleLogout} className=" text-white hover:bg-gradient-to-r from-purple-500 to-pink-500 hover:text-black border-none">
+                <AlertDialogCancel className="bg-gradient-to-r from-purple-500 to-pink-500 text-black border-none">
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleLogout}
+                  className=" text-white hover:bg-gradient-to-r from-purple-500 to-pink-500 hover:text-black border-none"
+                >
                   Continue
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          <SheetClose asChild>
-            <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-black w-full">
-              Saved Codes
+
+          {/* Ensure Single Child for SheetClose */}
+          <SheetClose>
+            <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold w-full">
+              Your Saved Codes
+            </Button>
+          </SheetClose>
+
+          <SheetClose>
+            <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold w-full">
+              Global Codeboard
             </Button>
           </SheetClose>
         </div>

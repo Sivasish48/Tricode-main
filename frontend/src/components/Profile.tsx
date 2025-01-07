@@ -80,13 +80,17 @@ export function Profile() {
 
           {/* Ensure Single Child for SheetClose */}
           <SheetClose>
-            <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold w-full">
+            <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold w-full"
+            onClick={() => navigate("/my-saved-codes")}
+            >
               Your Saved Codes
             </Button>
           </SheetClose>
 
           <SheetClose>
-            <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold w-full">
+            <Button className="border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold w-full"
+            onClick={() => navigate("/all-codes")}
+            >
               Global Codeboard
             </Button>
           </SheetClose>

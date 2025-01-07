@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { string } from "zod";
 
 // Define the interface for the code schema
 interface ICodeSchema extends Document {
@@ -7,6 +8,8 @@ interface ICodeSchema extends Document {
     css: string;
     javascript: string;
   };
+  ownerInfo: Schema.Types.ObjectId | string;
+  ownerName: string;
 }
 
 // Define the schema
@@ -15,7 +18,9 @@ const codeSchema = new mongoose.Schema<ICodeSchema>({
     html: { type: String   },
     css: { type: String   },
     javascript: { type: String   }
-  }
+  },
+  ownerInfo:{type: Schema.Types.ObjectId, ref: "User"},
+  ownerName: String,
 });
 
 // Create the model using the schema and export it

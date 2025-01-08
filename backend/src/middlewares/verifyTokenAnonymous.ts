@@ -14,7 +14,7 @@ export const verifyTokenAnonymous = async (
   const token = req.cookies?.token;
 
   if (!token) {
-   next();
+   return next();
   }
 
   jwt.verify(token, process.env.JWT_KEY!, (err: JsonWebTokenError | null, data: any) => {

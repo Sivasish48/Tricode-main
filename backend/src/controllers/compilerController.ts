@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { Code } from "../models/Code";
 import { fullCodeTypes } from "../types/compilerTypes";
-export const saveCode = async (req: Request, res: Response): Promise<Response> => {
+export const saveCode = async (req: AuthRequest, res: Response): Promise<Response> => {
   try {
     const  fullCode:fullCodeTypes  = req.body;
-    console.log(req.body)// Extract fullCode from the body
+    console.log(req.body)
+    console.log(req._id)
+    // Extract fullCode from the body
     if ( !fullCode.html && !fullCode.css && !fullCode.javascript) {
       return res.status(400).json({ error: "Missing code data" });
     }
@@ -26,6 +28,7 @@ export const saveCode = async (req: Request, res: Response): Promise<Response> =
 };
 
 import mongoose from 'mongoose';
+import { AuthRequest } from "../middlewares/verifyToken";
 
 export const loadCode = async (req: Request, res: Response) => {
   try {

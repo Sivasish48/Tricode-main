@@ -1,34 +1,53 @@
 import { Request, Response } from "express";
 import { Code } from "../models/Code";
 import { fullCodeTypes } from "../types/compilerTypes";
-export const saveCode = async (req: AuthRequest, res: Response): Promise<Response> => {
+export const saveCode = async (
+  req: AuthRequest,
+  res: Response
+): Promise<Response> => {
   try {
-    const  fullCode:fullCodeTypes  = req.body;
-    console.log(req.body)
-    console.log(req._id)
+    const fullCode: fullCodeTypes = req.body;
+
+    console.log(req._id);
     // Extract fullCode from the body
-    if ( !fullCode.html && !fullCode.css && !fullCode.javascript) {
+
+    let ownerName = "Anonymous";
+    let ownerInfo = undefined;
+    if (req._id) {
+      const user = await User.findById(req._id);
+      if (!user) {
+        return res.status(400).send({ message: "User not found." });
+      }
+      ownerName = user?.username;
+      ownerInfo = user?._id;
+    }
+    if (!fullCode.html && !fullCode.css && !fullCode.javascript) {
       return res.status(400).json({ error: "Missing code data" });
     }
-    
-    const newCode = await Code.create({ 
+
+    const newCode = await Code.create({
       fullCode: {
         html: fullCode.html,
         css: fullCode.css,
         javascript: fullCode.javascript,
-      }
+      },
+      ownerName,
+      ownerInfo,
     });
-    
+
     console.log(newCode);
-    return res.status(200).json({ message: "Code saved successfully", fullCode ,url:newCode._id});
+    return res
+      .status(200)
+      .json({ message: "Code saved successfully", fullCode, url: newCode._id });
   } catch (error) {
     console.error(`Error in saving code: ${error}`);
     return res.status(500).json({ error: "Error in saving code" });
   }
 };
 
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 import { AuthRequest } from "../middlewares/verifyToken";
+import { User } from "../models/User";
 
 export const loadCode = async (req: Request, res: Response) => {
   try {
@@ -45,9 +64,11 @@ export const loadCode = async (req: Request, res: Response) => {
     if (!existingCode) {
       return res.status(404).json({ error: "Code not found" });
     } else {
-      return res.status(200).json({ message: "Code loaded successfully", fullCode: existingCode.fullCode });
+      return res.status(200).json({
+        message: "Code loaded successfully",
+        fullCode: existingCode.fullCode,
+      });
     }
-
   } catch (error) {
     console.error(`Error in loading code: ${error}`);
     return res.status(500).json({ error: "Error in loading code" });

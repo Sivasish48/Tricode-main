@@ -3,12 +3,13 @@ import { string } from "zod";
 
 // Define the interface for the code schema
 interface ICodeSchema extends Document {
+  _id: mongoose.Types.ObjectId;
   fullCode: {
     html: string;
     css: string;
     javascript: string;
   };
-  ownerInfo: Schema.Types.ObjectId | string;
+  ownerInfo: mongoose.Types.ObjectId | string;
   ownerName: string;
 }
 

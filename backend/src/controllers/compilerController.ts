@@ -13,13 +13,16 @@ export const saveCode = async (
 
     let ownerName = "Anonymous";
     let ownerInfo = undefined;
+    let user = undefined;
+    let isAunthenticated = false
     if (req._id) {
-      const user = await User.findById(req._id);
+      user = await User.findById(req._id);
       if (!user) {
         return res.status(400).send({ message: "User not found." });
       }
       ownerName = user?.username;
       ownerInfo = user?._id;
+      isAunthenticated = true;
     }
     if (!fullCode.html && !fullCode.css && !fullCode.javascript) {
       return res.status(400).json({ error: "Missing code data" });
@@ -34,8 +37,12 @@ export const saveCode = async (
       ownerName,
       ownerInfo,
     });
+  console.log(newCode);
 
-    console.log(newCode);
+  if(isAunthenticated && user){
+    user.savedCodes.push(newCode._id);
+    await user.save();
+  }
     return res
       .status(200)
       .json({ message: "Code saved successfully", fullCode, url: newCode._id });

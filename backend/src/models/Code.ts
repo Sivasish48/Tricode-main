@@ -9,6 +9,7 @@ interface ICodeSchema extends Document {
     css: string;
     javascript: string;
   };
+  title: string;
   ownerInfo: mongoose.Types.ObjectId | string;
   ownerName: string;
 }
@@ -20,6 +21,7 @@ const codeSchema = new mongoose.Schema<ICodeSchema>({
     css: { type: String   },
     javascript: { type: String   }
   },
+  title: { type: String, required: true },
   ownerInfo:{type: Schema.Types.ObjectId, ref: "User"},
   ownerName: String,
 });

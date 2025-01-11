@@ -6,7 +6,7 @@ export const saveCode = async (
   res: Response
 ): Promise<Response> => {
   try {
-    const fullCode: fullCodeTypes = req.body;
+    const {fullCode,title}: {fullCode: fullCodeTypes,title: string} = req.body;
 
     console.log(req._id);
     // Extract fullCode from the body
@@ -34,6 +34,7 @@ export const saveCode = async (
         css: fullCode.css,
         javascript: fullCode.javascript,
       },
+      title,
       ownerName,
       ownerInfo,
     });

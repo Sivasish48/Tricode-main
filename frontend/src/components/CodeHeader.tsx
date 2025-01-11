@@ -14,7 +14,7 @@ import {
 import { RootState } from "../redux/store";
 import { compilerSliceStateType } from "../redux/slices/CompilerSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { Code, Copy, ShareIcon, SaveIcon, MonitorDown } from "lucide-react";
+import { Code, Copy, ShareIcon, SaveIcon, MonitorDown, X } from "lucide-react";
 import LoadingLad from "../loader/loader";
 import {
   AlertDialog,
@@ -163,14 +163,44 @@ function CodeHeader() {
           </Select>
         </div>
 
-        <Button
-          onClick={handleSave}
-          variant="ghost"
-          className="flex items-center gap-2 px-4 py-2  border-2 border-white rounded-full hover:border-black hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black transition-all duration-300 transform "
-        >
-          <SaveIcon className="w-5 h-5" />
-          <span className="text-sm font-medium">Save</span>
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger className="flex items-center gap-2 px-4 py-2 border-2 border-white rounded-full hover:border-black hover:bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-black">
+            <SaveIcon className="w-5 h-5" />
+            <span className="text-sm font-medium">Save</span>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="bg-black text-white border border-gray-700 rounded-lg shadow-lg">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="flex items-center justify-center text-purple-500">
+                <SaveIcon className="mr-2" />
+                Save Your Code!
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogDescription>
+              <div className="mt-4">
+                <label htmlFor="save-name" className="block text-sm mb-2">
+                  Enter a name for your code:
+                </label>
+                <input
+                  type="text"
+                  id="save-name"
+                  placeholder="e.g., Todo Code"
+                  className="w-full px-4 py-2 rounded bg-gray-800 text-white border border-gray-500 focus:outline-none"
+                />
+              </div>
+            </AlertDialogDescription>
+            <AlertDialogFooter className="mt-4">
+              <AlertDialogCancel className="bg-gradient-to-r from-purple-500 to-pink-500 text-black border-none">
+                Cancel
+              </AlertDialogCancel>
+              <button
+                className="px-4 rounded text-white bg-gray-600 hover:bg-gradient-to-r from-purple-500 to-pink-500 hover:text-black border-none"
+                onClick={handleSave}
+              >
+                Save
+              </button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
 
         <Button
           onClick={handlDownload}
@@ -215,7 +245,7 @@ function CodeHeader() {
               <AlertDialogFooter className="mt-4">
                 <AlertDialogCancel className="px-4 py-2 rounded bg-gray-800 hover:bg-gradient-to-r from-purple-500 to-pink-500 hover:border-black text-white transition-all duration-300 ">
                   Cancel
-                </AlertDialogCancel> 
+                </AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

@@ -14,7 +14,7 @@ import {
 import { RootState } from "../redux/store";
 import { compilerSliceStateType } from "../redux/slices/CompilerSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { Code, Copy, ShareIcon, SaveIcon, MonitorDown, X } from "lucide-react";
+import { Code, Copy, ShareIcon, SaveIcon, MonitorDown } from "lucide-react";
 import LoadingLad from "../loader/loader";
 import {
   AlertDialog,
@@ -31,13 +31,14 @@ import { useEffect, useState } from "react";
 import { useSaveCodeMutation, useLoadCodeMutation } from "../redux/slices/api";
 import { showToast } from "../lib/error/handleError";
 
+
 function CodeHeader() {
   const [saveCode, { isLoading }] = useSaveCodeMutation();
   const [loadCode] = useLoadCodeMutation();
   const { urlId } = useParams();
 
   const navigate = useNavigate();
-
+  const [postTitle,setPostTitle] = useState<string>("");
   const [shareBtn, setShareBtn] = useState<boolean>(!!urlId);
   const dispatch = useDispatch();
   const currentLanguage = useSelector(
@@ -46,6 +47,7 @@ function CodeHeader() {
   const fullCode = useSelector(
     (state: RootState) => state.compilerSlice.fullCode
   );
+
 
   const handlDownload = async () => {
     const htmlCode = new Blob([fullCode.html], { type: "text/html" });
@@ -96,18 +98,46 @@ function CodeHeader() {
     showToast.success("Code Downloaded Successfully");
   };
 
+  // const handleSave = async () => {
+  //   try {
+  //     const response = await saveCode({fullcode:fullCode , title:postTitle}).unwrap();
+  //     if (response.url) {
+  //       navigate(`/compiler/${response.url}`, { replace: true });
+  //       setShareBtn(true); // Enable the Share button after saving
+  //       showToast.success("Code saved successfully");
+  //     }
+  //   } catch (error) {
+  //     showToast.error("Error saving code due to missing data");
+  //   }
+  // };
+
   const handleSave = async () => {
+    if (!fullCode?.html && !fullCode?.css && !fullCode?.javascript) {
+      showToast.error("Cannot save empty code. Please add HTML, CSS, or JavaScript.");
+      return;
+    }
+    if (!postTitle.trim()) {
+      showToast.error("Title cannot be empty.");
+      return;
+    }
+  
+    console.log("Sending data:", { fullcode: fullCode, title: postTitle }); // Log request body
+  
     try {
-      const response = await saveCode(fullCode).unwrap();
+     
+      const response = await saveCode({ fullcode: fullCode, title: postTitle }).unwrap();
+
       if (response.url) {
         navigate(`/compiler/${response.url}`, { replace: true });
         setShareBtn(true); // Enable the Share button after saving
         showToast.success("Code saved successfully");
       }
     } catch (error) {
-      showToast.error("Error saving code due to missing data");
+      console.error("Error response:", error); // Log error details
+      showToast.error("Error saving code");
     }
   };
+  
 
   const loadTheCode = async () => {
     try {
@@ -184,6 +214,8 @@ function CodeHeader() {
                   type="text"
                   id="save-name"
                   placeholder="e.g., Todo Code"
+                  value={postTitle}
+                  onChange={(e) => setPostTitle(e.target.value)}
                   className="w-full px-4 py-2 rounded bg-gray-800 text-white border border-gray-500 focus:outline-none"
                 />
               </div>

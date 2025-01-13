@@ -6,6 +6,7 @@ export interface compilerSliceStateType {
         css: string;
         javascript: string;  
     };
+    
     currentLanguage: "html" | "css" | "javascript"; 
    
 }

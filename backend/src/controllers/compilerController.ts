@@ -1,57 +1,111 @@
 import { Request, Response } from "express";
 import { Code } from "../models/Code";
 import { fullCodeTypes } from "../types/compilerTypes";
+// export const saveCode = async (
+//   req: AuthRequest,
+//   res: Response
+// ): Promise<Response> => {
+//   try {
+//     const {fullCode,title}: {fullCode: fullCodeTypes,title: string} = req.body;
+
+//     console.log(req._id);
+//     // Extract fullCode from the body
+
+//     let ownerName = "Anonymous";
+//     let ownerInfo = undefined;
+//     let user = undefined;
+//     let isAunthenticated = false
+//     if (req._id) {
+//       user = await User.findById(req._id);
+//       if (!user) {
+//         return res.status(400).send({ message: "User not found." });
+//       }
+//       ownerName = user?.username;
+//       ownerInfo = user?._id;
+//       isAunthenticated = true;
+//     }
+//     if (!fullCode.html && !fullCode.css && !fullCode.javascript) {
+//       return res.status(400).json({ error: "Missing code data" });
+//     }
+
+//     const newCode = await Code.create({
+//       fullCode: fullCode,
+//       ownerName: ownerName,
+//       ownerInfo: ownerInfo,
+//       title: title,
+//     });
+//   console.log(newCode);
+
+//   if(isAunthenticated && user){
+//     user.savedCodes.push(newCode._id);
+//     await user.save();
+//   }
+//     return res
+//       .status(200)
+//       .json({ message: "Code saved successfully", fullCode, url: newCode._id });
+//   } catch (error) {
+//     console.error(`Error in saving code: ${error}`);
+//     return res.status(500).json({ error: "Error in saving code" });
+//   }
+// };
+
 export const saveCode = async (
   req: AuthRequest,
   res: Response
 ): Promise<Response> => {
   try {
-    const {fullCode,title}: {fullCode: fullCodeTypes,title: string} = req.body;
+    const { fullCode, title }: { fullCode: fullCodeTypes; title: string } = req.body;
 
-    console.log(req._id);
-    // Extract fullCode from the body
+    if (!title?.trim()) {
+      return res.status(400).json({ error: "Title is required." });
+    }
+
+    const html = fullCode?.html || ""; // Default to empty string if undefined
+    const css = fullCode?.css || ""; // Default to empty string if undefined
+    const javascript = fullCode?.javascript || ""; // Default to empty string if undefined
+
 
     let ownerName = "Anonymous";
     let ownerInfo = undefined;
     let user = undefined;
-    let isAunthenticated = false
+    let isAuthenticated = false;
+
     if (req._id) {
       user = await User.findById(req._id);
       if (!user) {
-        return res.status(400).send({ message: "User not found." });
+        return res.status(400).json({ error: "User not found." });
       }
-      ownerName = user?.username;
-      ownerInfo = user?._id;
-      isAunthenticated = true;
-    }
-    if (!fullCode.html && !fullCode.css && !fullCode.javascript) {
-      return res.status(400).json({ error: "Missing code data" });
+      ownerName = user.username;
+      ownerInfo = user._id;
+      isAuthenticated = true;
     }
 
+    // Save the code
     const newCode = await Code.create({
-      fullCode: {
-        html: fullCode.html,
-        css: fullCode.css,
-        javascript: fullCode.javascript,
-      },
-      title,
+      fullCode: { html, css, javascript },
       ownerName,
       ownerInfo,
+      title,
     });
-  console.log(newCode);
 
-  if(isAunthenticated && user){
-    user.savedCodes.push(newCode._id);
-    await user.save();
-  }
-    return res
-      .status(200)
-      .json({ message: "Code saved successfully", fullCode, url: newCode._id });
+    console.log(newCode);
+
+    if (isAuthenticated && user) {
+      user.savedCodes.push(newCode._id);
+      await user.save();
+    }
+
+    return res.status(200).json({
+      message: "Code saved successfully",
+      fullCode: { html, css, javascript },
+      url: newCode._id,
+    });
   } catch (error) {
     console.error(`Error in saving code: ${error}`);
     return res.status(500).json({ error: "Error in saving code" });
   }
 };
+
 
 import mongoose from "mongoose";
 import { AuthRequest } from "../middlewares/verifyToken";

@@ -121,7 +121,7 @@ function CodeHeader() {
       return;
     }
   
-    console.log("Sending data:", { fullCode, title: postTitle }); // Use camelCase for fullCode
+    console.log("Sending data:", { fullCode: fullCode, title: postTitle }); // Use camelCase for fullCode
   
     try {
       const response = await saveCode({ fullCode, title: postTitle }).unwrap();

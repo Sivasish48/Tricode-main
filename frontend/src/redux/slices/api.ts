@@ -9,7 +9,7 @@ export const api = createApi({
   endpoints: (builder) => ({
     saveCode: builder.mutation<
       { url: string; status: string },
-      {fullcode:compilerSliceStateType["fullCode"];title:string}
+      {fullCode:compilerSliceStateType["fullCode"];title:string}
       
     >({
       query: (fullCode) => ({

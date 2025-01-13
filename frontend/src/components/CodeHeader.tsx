@@ -121,12 +121,11 @@ function CodeHeader() {
       return;
     }
   
-    console.log("Sending data:", { fullcode: fullCode, title: postTitle }); // Log request body
+    console.log("Sending data:", { fullCode, title: postTitle }); // Use camelCase for fullCode
   
     try {
-     
-      const response = await saveCode({ fullcode: fullCode, title: postTitle }).unwrap();
-
+      const response = await saveCode({ fullCode, title: postTitle }).unwrap();
+  
       if (response.url) {
         navigate(`/compiler/${response.url}`, { replace: true });
         setShareBtn(true); // Enable the Share button after saving
@@ -137,6 +136,7 @@ function CodeHeader() {
       showToast.error("Error saving code");
     }
   };
+  
   
 
   const loadTheCode = async () => {

@@ -9,8 +9,7 @@ export const api = createApi({
   endpoints: (builder) => ({
     saveCode: builder.mutation<
       { url: string; status: string },
-      {fullCode:compilerSliceStateType["fullCode"];title:string}
-      
+      { fullCode: compilerSliceStateType["fullCode"]; title: string }
     >({
       query: (fullCode) => ({
         url: "/compiler/save",
@@ -35,9 +34,7 @@ export const api = createApi({
         body: body,
       }),
     }),
-    signup: builder.mutation<
-    UserInfoInterface, 
-    signupCredentails>({
+    signup: builder.mutation<UserInfoInterface, signupCredentails>({
       query: (body) => ({
         url: `/api/user/signup`,
         method: "POST",
@@ -56,6 +53,13 @@ export const api = createApi({
         method: "POST",
       }),
     }),
+
+    getMyCodes: builder.query<
+      { fullCode: compilerSliceStateType["fullCode"]; title: string },
+      void
+    >({
+      query: () => "/user/my-codes",
+    }),
   }),
 });
 
@@ -67,5 +71,6 @@ export const {
   useUserDetailsQuery,
   useLogoutMutation,
   useSignupMutation,
+  useGetMyCodesQuery,
 } = api;
 export default api;

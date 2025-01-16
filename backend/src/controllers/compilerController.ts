@@ -54,7 +54,8 @@ export const saveCode = async (
   res: Response
 ): Promise<Response> => {
   try {
-    const { fullCode, title }: { fullCode: fullCodeTypes; title: string } = req.body;
+    const { fullCode, title }: { fullCode: fullCodeTypes; title: string } =
+      req.body;
 
     if (!title?.trim()) {
       return res.status(400).json({ error: "Title is required." });
@@ -63,7 +64,6 @@ export const saveCode = async (
     const html = fullCode?.html || ""; // Default to empty string if undefined
     const css = fullCode?.css || ""; // Default to empty string if undefined
     const javascript = fullCode?.javascript || ""; // Default to empty string if undefined
-
 
     let ownerName = "Anonymous";
     let ownerInfo = undefined;
@@ -106,7 +106,6 @@ export const saveCode = async (
   }
 };
 
-
 import mongoose from "mongoose";
 import { AuthRequest } from "../middlewares/verifyToken";
 import { User } from "../models/User";
@@ -134,5 +133,19 @@ export const loadCode = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(`Error in loading code: ${error}`);
     return res.status(500).json({ error: "Error in loading code" });
+  }
+};
+
+export const getMyCodes = async (req: AuthRequest, res: Response) => {
+  const userId = req._id;
+  try {
+    const user = await User.findById(userId).populate("savedCodes");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.status(200).send(user.savedCodes);
+  } catch (error) {
+    console.error(`Error in getting my codes: ${error}`);
+    return res.status(500).json({ error: "Error in getting codes" });
   }
 };

@@ -58,7 +58,7 @@ export const api = createApi({
       { fullCode: compilerSliceStateType["fullCode"]; title: string },
       void
     >({
-      query: () => "/user/my-codes",
+      query: () => "/api/user/my-codes",
     }),
   }),
 });

@@ -8,7 +8,7 @@ export interface compilerSliceStateType {
     };
     
     currentLanguage: "html" | "css" | "javascript"; 
-   
+    isOwner: boolean;
 }
 
 const initialState: compilerSliceStateType = {
@@ -18,6 +18,7 @@ const initialState: compilerSliceStateType = {
         javascript: "this is js code",  
     },
     currentLanguage: "html",
+    isOwner: false,
    
 };
 

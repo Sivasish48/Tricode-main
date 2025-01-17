@@ -6,6 +6,7 @@ export const api = createApi({
     baseUrl: "http://localhost:5000",
     credentials: "include",
   }),
+  tagTypes:["mycodes"],
   endpoints: (builder) => ({
     saveCode: builder.mutation<
       { url: string; status: string },
@@ -16,7 +17,9 @@ export const api = createApi({
         method: "POST",
         body: fullCode,
       }),
+      invalidatesTags: ["mycodes"],
     }),
+
     loadCode: builder.mutation<
       { fullCode: compilerSliceStateType["fullCode"] },
       { urlId: string }
@@ -59,8 +62,11 @@ export const api = createApi({
       void
     >({
       query: () => "/api/user/my-codes",
+      providesTags: ["mycodes"],
     }),
+   
   }),
+  
 });
 
 // Corrected export statement

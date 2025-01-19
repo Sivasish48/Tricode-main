@@ -139,7 +139,11 @@ export const loadCode = async (req: Request, res: Response) => {
 export const getMyCodes = async (req: AuthRequest, res: Response) => {
   const userId = req._id;
   try {
-    const user = await User.findById(userId).populate("savedCodes");
+    const user = await User.findById(userId).populate({
+     path: "savedCodes",
+     options: { sort: { createdAt: -1 } },
+    }
+    );
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }

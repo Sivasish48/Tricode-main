@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { string } from "zod";
+import { date, string } from "zod";
 
 // Define the interface for the code schema
 interface ICodeSchema extends Document {
@@ -24,7 +24,9 @@ const codeSchema = new mongoose.Schema<ICodeSchema>({
   title: { type: String, required: true },
   ownerInfo:{type: Schema.Types.ObjectId, ref: "User"},
   ownerName: String,
-});
+},{ timestamps: true }
+
+);
 
 // Create the model using the schema and export it
 export const Code = mongoose.model("Code", codeSchema);

@@ -58,7 +58,7 @@ export const api = createApi({
     }),
 
     getMyCodes: builder.query<
-      { fullCode: compilerSliceStateType["fullCode"]; title: string },
+      Array<{ fullCode: compilerSliceStateType["fullCode"]; title: string }>,
       void
     >({
       query: () => "/api/user/my-codes",

@@ -44,7 +44,7 @@
         )
         0 0,
       linear-gradient(90deg, #2c0032 2%, #1a1a1a 0, #1a1a1a 98%, #2c0032 0%) 0 0
-        #1a1a1a; /* Darker grid background */
+        #000000; /* Darker grid background */
     background-size: 40px 60px;
   }
   

@@ -84,9 +84,7 @@ export default {
           to: {
             backgroundPosition: "-200% 0",
           },
-          
         },
-
         meteor: {
           "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
           "70%": { opacity: "1" },
@@ -95,14 +93,22 @@ export default {
             opacity: "0",
           },
         },
+        /** ✅ Added Shine Border Animation */
+        shine: {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         spotlight: "spotlight 2s ease .75s 1 forwards",
         "meteor-effect": "meteor 5s linear infinite",
+        /** ✅ Added Animation Name */
+        shine: "shine 5s linear infinite",
       },
     },
   },
-  plugins: [import("tailwindcss-animate")],
+  plugins: [animatePlugin],
 };

@@ -9,6 +9,7 @@ export interface compilerSliceStateType {
     
     currentLanguage: "html" | "css" | "javascript"; 
     isOwner: boolean;
+    createdAt: string;
 }
 
 const initialState: compilerSliceStateType = {
@@ -19,6 +20,7 @@ const initialState: compilerSliceStateType = {
     },
     currentLanguage: "html",
     isOwner: false,
+    createdAt: "",
    
 };
 

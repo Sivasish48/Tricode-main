@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { compilerSliceStateType } from "./CompilerSlice";
 
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000",
@@ -10,7 +11,7 @@ export const api = createApi({
   endpoints: (builder) => ({
     saveCode: builder.mutation<
       { url: string; status: string },
-      { fullCode: compilerSliceStateType["fullCode"]; title: string }
+      codeType
     >({
       query: (fullCode) => ({
         url: "/compiler/save",
@@ -58,7 +59,7 @@ export const api = createApi({
     }),
 
     getMyCodes: builder.query<
-      Array<{ fullCode: compilerSliceStateType["fullCode"]; title: string,createdAt:string }>,
+      Array<codeType>,
       
       void
     >({

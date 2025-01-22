@@ -124,7 +124,11 @@ function CodeHeader() {
     console.log("Sending data:", { fullCode: fullCode, title: postTitle }); // Use camelCase for fullCode
   
     try {
-      const response = await saveCode({ fullCode, title: postTitle }).unwrap();
+      const response = await saveCode({
+        fullCode, title: postTitle,
+        createdAt: "",
+        _id: ""
+      }).unwrap();
   
       if (response.url) {
         navigate(`/compiler/${response.url}`, { replace: true });

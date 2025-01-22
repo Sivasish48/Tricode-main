@@ -140,10 +140,9 @@ export const getMyCodes = async (req: AuthRequest, res: Response) => {
   const userId = req._id;
   try {
     const user = await User.findById(userId).populate({
-     path: "savedCodes",
-     options: { sort: { createdAt: -1 } },
-    }
-    );
+      path: "savedCodes",
+      options: { sort: { createdAt: -1 } },
+    });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -151,5 +150,21 @@ export const getMyCodes = async (req: AuthRequest, res: Response) => {
   } catch (error) {
     console.error(`Error in getting my codes: ${error}`);
     return res.status(500).json({ error: "Error in getting codes" });
+  }
+};
+
+export const editCode = async (req: Request, res: Response) => {
+  try {
+  } catch (error) {
+    console.error(`Error in editing code: ${error}`);
+    return res.status(500).json({ error: "Error in editing code" });
+  }
+};
+
+export const deleteCode = async (req: Request, res: Response) => {
+  try {
+  } catch (error) {
+    console.error(`Error in deleting code: ${error}`);
+    return res.status(500).json({ error: "Error in deleting code" });
   }
 };

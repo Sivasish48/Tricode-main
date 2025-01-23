@@ -161,10 +161,17 @@ export const editCode = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteCode = async (req: Request, res: Response) => {
+export const deleteCode = async (req: AuthRequest, res: Response) => {
+  const userId = req._id;
+  const { _id } = req.params;
   try {
+    const owner = await User.findById(userId);
+    if (!owner) {
+      return res.status(404).send({ message: "User not found" });
+    }
+    return res.status(200).send({ _id });
   } catch (error) {
     console.error(`Error in deleting code: ${error}`);
-    return res.status(500).json({ error: "Error in deleting code" });
+    return res.status(500).send({ error: "Error in deleting code" });
   }
 };

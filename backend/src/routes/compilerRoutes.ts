@@ -1,6 +1,7 @@
 import express from "express";
 import { saveCode , loadCode, editCode, deleteCode} from "../controllers/compilerController";
 import { verifyTokenAnonymous } from "../middlewares/verifyTokenAnonymous";
+import { verifyToken } from "../middlewares/verifyToken";
 export const compilerRouter = express.Router();
 
 compilerRouter.post("/save", verifyTokenAnonymous, async (req, res) => {
@@ -15,6 +16,4 @@ compilerRouter.put("/edit", verifyTokenAnonymous, async (req, res) => {
     await editCode(req as any, res as any);
 });
 
-compilerRouter.delete("/delete/:id", verifyTokenAnonymous, async (req, res) => {
-  await deleteCode(req as any, res as any);
-});
+compilerRouter.delete("/delete/:id", verifyToken, deleteCode as any);

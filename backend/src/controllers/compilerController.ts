@@ -163,15 +163,30 @@ export const editCode = async (req: Request, res: Response) => {
 
 export const deleteCode = async (req: AuthRequest, res: Response) => {
   const userId = req._id;
-  const { _id } = req.params;
+  const { id } = req.params;
   try {
     const owner = await User.findById(userId);
     if (!owner) {
-      return res.status(404).send({ message: "User not found" });
+      return res
+        .status(404)
+        .send({ message: "Cannot find the owner profile!" });
     }
-    return res.status(200).send({ _id });
+    const existingCode = await Code.findById(id);
+    if (!existingCode) {
+      return res.status(404).send({ message: "Code not found" });
+    }
+    if (existingCode.ownerName !== owner.username) {
+      return res
+        .status(400)
+        .send({ message: "You don't have permission to delete this code!" });
+    }
+    const deleteCode = await Code.findByIdAndDelete(id);
+    if (deleteCode) {
+      return res.status(200).send({ message: "Code Deleted successfully!" });
+    } else {
+      return res.status(404).send({ message: "Code not found" });
+    }
   } catch (error) {
-    console.error(`Error in deleting code: ${error}`);
-    return res.status(500).send({ error: "Error in deleting code" });
+    return res.status(500).send({ message: "Error deleting code!", error });
   }
 };

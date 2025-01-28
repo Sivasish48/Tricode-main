@@ -62,9 +62,7 @@ export default function CodeItem({ data }: { data: codeType }) {
               Open In Editor
             </Link>
           </ContextMenuItem>
-          <ContextMenuItem className="bg-[#1e1e1e] text-white p-2 my-2 w-full rounded-md cursor-pointer">
-            Edit
-          </ContextMenuItem>
+
           <ContextMenuItem
             onClick={handleDeleteCode}
             className="bg-[#1e1e1e] text-white p-2 my-2 w-full rounded-md cursor-pointer"

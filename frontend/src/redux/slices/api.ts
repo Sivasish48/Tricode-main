@@ -58,7 +58,12 @@ export const api = createApi({
       query: () => "/api/user/my-codes",
       providesTags: ["mycodes"],
     }),
-    deleteCode: builder.mutation<void,{ _id: string }>({
+
+    getGlobalCodes: builder.query<Array<codeType>, void>({
+      query: () => "/api/user//global-codeboard",
+      providesTags: ["mycodes"],
+    }),
+    deleteCode: builder.mutation<void, { _id: string }>({
       query: ({ _id }) => ({
         url: `/compiler/delete/${_id}`,
         method: "DELETE",
@@ -77,6 +82,7 @@ export const {
   useLogoutMutation,
   useSignupMutation,
   useGetMyCodesQuery,
-  useDeleteCodeMutation 
+  useDeleteCodeMutation,
+  useGetGlobalCodesQuery,
 } = api;
 export default api;

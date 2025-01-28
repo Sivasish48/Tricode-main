@@ -157,14 +157,6 @@ export const getMyCodes = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const editCode = async (req: Request, res: Response) => {
-  try {
-  } catch (error) {
-    console.error(`Error in editing code: ${error}`);
-    return res.status(500).json({ error: "Error in editing code" });
-  }
-};
-
 export const deleteCode = async (req: AuthRequest, res: Response) => {
   const userId = req._id;
   const { id } = req.params;
@@ -192,5 +184,16 @@ export const deleteCode = async (req: AuthRequest, res: Response) => {
     }
   } catch (error) {
     return res.status(500).send({ message: "Error deleting code!", error });
+  }
+};
+
+export const globalCodeboard = async (req: AuthRequest, res: Response) => {
+  try {
+    const anonymousCodes = await Code.find({ ownerName: "Anonymous" });
+
+    res.status(200).send(anonymousCodes);
+  } catch (error) {
+    console.error("Error fetching anonymous codes:", error);
+    res.status(500).json({ message: "Server Error" });
   }
 };

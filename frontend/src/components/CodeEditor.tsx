@@ -1,4 +1,4 @@
-import React from "react";
+
 import CodeMirror from "@uiw/react-codemirror";
 import { tokyoNightInit } from "@uiw/codemirror-theme-tokyo-night";
 import { loadLanguage, langNames } from "@uiw/codemirror-extensions-langs";
@@ -9,6 +9,7 @@ import {
   updateCodevalue,
   
 } from "../redux/slices/CompilerSlice.ts";
+import { useCallback } from "react";
 
 export default function CodeEditor() {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export default function CodeEditor() {
    const fullCode = useSelector((state: RootState) => state.compilerSlice.fullCode);
 
 
-  const onChange = React.useCallback((value: string) => {
+  const onChange =useCallback((value: string) => {
     // console.log("Code Value: ", val);
     // setValue(val);
     dispatch(updateCodevalue(value));

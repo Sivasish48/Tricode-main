@@ -116,3 +116,82 @@
   animation: spin-slow 3s linear infinite;
 }
 
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+@layer base {
+  :root {
+    --background: #090909;
+    --foreground: #f8f8f8;
+    --card-bg: #121212;
+    --card-border: #222;
+    --primary: #f472b6;
+    --primary-hover: #ec4899;
+  }
+
+  .dark {
+    --background: #c19898;
+    --foreground: #e5e5e5;
+    --card-bg: #cebebe;
+    --card-border: #3b208c;
+  }
+}
+
+/* Background Animation */
+@keyframes gradientScroll {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+.border-beam-animation {
+  animation: border-beam calc(var(--duration, 5) * 1s) infinite linear;
+}
+
+
+@layer utilities {
+  @keyframes textColorTransition {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-textColor {
+    background-size: 200% 200%;
+    animation: textColorTransition 7s infinite ease-in-out;
+  }
+}

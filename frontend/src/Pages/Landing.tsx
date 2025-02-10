@@ -1,4 +1,4 @@
-import React from "react";
+
 import { motion } from "framer-motion";
 import MagicButton from "../components/ui/Magicbutton";
 import { Tabs } from "../components/ui/tabs";

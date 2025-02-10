@@ -4,7 +4,7 @@ import PageLoader from "./components/PageLoader";
 
 const Home = lazy(() => import("./Pages/Home"));
 const Compiler = lazy(() => import("./Pages/Compiler"));
-const Landing = lazy(() => import("./Pages/Landing"));
+const LandingPage = lazy(() => import("./Pages/LandingPage"));
 const Login = lazy(() => import("./Pages/Login"));
 const SignUp = lazy(() => import("./Pages/SignUp"));
 const NotFound = lazy(() => import("./Pages/NotFound"));
@@ -14,7 +14,7 @@ function AllRoutes() {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/compiler" element={<Compiler />} />
         <Route path="/compiler/:urlId" element={<Compiler />} />

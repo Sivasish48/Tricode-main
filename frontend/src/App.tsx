@@ -5,6 +5,7 @@ import { useUserDetailsQuery } from "./redux/slices/api";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { currentUser, isLoggedIn } from "./redux/slices/appSlice";
+
 import AllRoutes from "./AllRoutes";
 
 export default function App() {

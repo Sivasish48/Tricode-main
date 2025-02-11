@@ -77,7 +77,7 @@ export default function App() {
           </motion.button>
 
           {/* Feature Section */}
-          <div className="max-w-screen-lg mx-auto mt-10">
+          <div className="max-w-screen-lg mx-auto mt-48">
             <BentoGridDemo />
           </div>
 

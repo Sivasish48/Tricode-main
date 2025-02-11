@@ -17,7 +17,7 @@ export default function BentoGridDemo() {
     <div className=" min-h-screen py-12 px-4">
       <motion.h2
         className="text-5xl font-bold text-center text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 
-               bg-clip-text mb-18"
+               bg-clip-text mb-36"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

@@ -1,16 +1,13 @@
-
-import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid"
+import { BentoGrid, BentoGridItem } from "../components/ui/bento-grid";
 import {
   IconArrowWaveRightUp,
-  IconBoxAlignRightFilled,
   IconBoxAlignTopLeft,
   IconClipboardCopy,
   IconFileBroken,
   IconSignature,
   IconTableColumn,
-} from "@tabler/icons-react"
-import { motion } from "framer-motion"
-
+} from "@tabler/icons-react";
+import { motion } from "framer-motion";
 
 export default function BentoGridDemo() {
   return (
@@ -42,48 +39,87 @@ export default function BentoGridDemo() {
         ))}
       </BentoGrid>
     </div>
-  )
+  );
 }
 
+// const items = [
+//   {
+//     title: "The Dawn of Innovation",
+//     description: "Explore the birth of groundbreaking ideas and inventions that shaped our world.",
+//     icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+//     className: "md:col-span-2",
+//   },
+//   {
+//     title: "The Digital Revolution",
+//     description: "Dive into the transformative power of technology in our daily lives.",
+//     icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
+//     className: "md:row-span-2",
+//   },
+//   {
+//     title: "The Art of Design",
+//     description: "Discover the beauty of thoughtful and functional design across various disciplines.",
+//     icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
+//   },
+//   {
+//     title: "The Power of Communication",
+//     description: "Understand the impact of effective communication in our interconnected world.",
+//     icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
+//     className: "md:col-span-2",
+//   },
+//   {
+//     title: "The Pursuit of Knowledge",
+//     description: "Join the quest for understanding and enlightenment in an ever-changing landscape.",
+//     icon: <IconArrowWaveRightUp className="h-4 w-4 text-neutral-500" />,
+//   },
+//   {
+//     title: "The Joy of Creation",
+//     description: "Experience the thrill of bringing ideas to life through various mediums and technologies.",
+//     icon: <IconBoxAlignTopLeft className="h-4 w-4 text-neutral-500" />,
+//     className: "md:col-span-2",
+//   },
+//   {
+//     title: "The Spirit of Adventure",
+//     description: "Embark on exciting journeys and thrilling discoveries that push the boundaries of what's possible.",
+//     icon: <IconBoxAlignRightFilled className="h-4 w-4 text-neutral-500" />,
+//     className: "md:col-span-2",
+//   },
+// ]
 const items = [
   {
-    title: "The Dawn of Innovation",
-    description: "Explore the birth of groundbreaking ideas and inventions that shaped our world.",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
-    className: "md:col-span-2",
-  },
-  {
-    title: "The Digital Revolution",
-    description: "Dive into the transformative power of technology in our daily lives.",
-    icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
-    className: "md:row-span-2",
-  },
-  {
-    title: "The Art of Design",
-    description: "Discover the beauty of thoughtful and functional design across various disciplines.",
-    icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
-  },
-  {
-    title: "The Power of Communication",
-    description: "Understand the impact of effective communication in our interconnected world.",
-    icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
-    className: "md:col-span-2",
-  },
-  {
-    title: "The Pursuit of Knowledge",
-    description: "Join the quest for understanding and enlightenment in an ever-changing landscape.",
-    icon: <IconArrowWaveRightUp className="h-4 w-4 text-neutral-500" />,
-  },
-  {
-    title: "The Joy of Creation",
-    description: "Experience the thrill of bringing ideas to life through various mediums and technologies.",
+    title: "🌐 HTML, CSS & JS Editor",
+    description:
+      "Write, edit, and preview HTML, CSS, and JavaScript in real time.",
     icon: <IconBoxAlignTopLeft className="h-4 w-4 text-neutral-500" />,
     className: "md:col-span-2",
   },
   {
-    title: "The Spirit of Adventure",
-    description: "Embark on exciting journeys and thrilling discoveries that push the boundaries of what's possible.",
-    icon: <IconBoxAlignRightFilled className="h-4 w-4 text-neutral-500" />,
+    title: "🌍 Global Codeboard",
+    description:
+      "Work on a shared coding environment accessible from anywhere in real time.",
+    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
     className: "md:col-span-2",
   },
-]
+  {
+    title: "📝 Anonymous Coding",
+    description: "Start coding instantly without signing up or logging in.",
+    icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
+    className: "md:row-span-2",
+  },
+  {
+    title: "🔗 Resume Where You Left Off",
+    description: "Reopen and continue coding without losing progress.",
+    icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
+  },
+  {
+    title: "💾 Save & Edit Code",
+    description:
+      "Save your code and edit it later through the Global Codeboard.",
+    icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
+    className: "md:col-span-2",
+  },
+  {
+    title: "📥 Download Code",
+    description: "Export your code effortlessly for offline use or sharing.",
+    icon: <IconArrowWaveRightUp className="h-4 w-4 text-neutral-500" />,
+  },
+];

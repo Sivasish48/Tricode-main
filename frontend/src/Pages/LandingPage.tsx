@@ -3,10 +3,22 @@ import AnimatedTestimonialsDemo from "../components/animated-testimonial-demo";
 import BentoGridDemo from "../components/bento-grid-demo";
 import Footer from "../components/footer";
 import { LampContainer } from "../components/ui/lamp";
+import { AnimatedGridPattern } from "../components/Animated-Grid-Pattern";
+import cn from "../lib/utils";
 
 export default function App() {
   return (
     <div className="min-h-screen bg-black via-gray-900 to-gray-950">
+       <AnimatedGridPattern
+        numSquares={60}
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[150%] skew-y-12",
+        )}
+      />
       {/* Header */}
       <header className="container mx-auto px-14 py-6 max-w-screen-lg">
         <nav className="flex justify-between items-center mx-auto max-w-screen-lg">

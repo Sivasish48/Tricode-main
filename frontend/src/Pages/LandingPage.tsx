@@ -137,7 +137,7 @@ export default function App() {
               className="text-5xl font-bold text-center text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 
                bg-clip-text"
             >
-              What people say about Granola
+              What people say about Tricode
             </h2>
 
             {/* Animated Testimonials */}
@@ -159,7 +159,7 @@ export default function App() {
                 }}
                 className="mt-40 text-white text-center text-4xl font-medium tracking-tight md:text-7xl"
               >
-                Build lamps <br /> the right way
+                To Code  <br /> Collaberate & Hire
               </motion.h1>
               <motion.button
                 initial={{ opacity: 0, y: 20 }}
@@ -173,7 +173,7 @@ export default function App() {
                 whileTap={{ scale: 0.95 }}
                 className="mt-24 px-6 py-2 bg-gradient-to-r from-indigo-400 to-pink-500 text-white rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
               >
-                Start for Free
+                Try Tricode
               </motion.button>
             </LampContainer>
           </div>

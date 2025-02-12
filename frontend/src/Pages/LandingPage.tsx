@@ -6,8 +6,9 @@ import { LampContainer } from "../components/ui/lamp";
 import { AnimatedGridPattern } from "../components/Animated-Grid-Pattern";
 import triCodeLogo from "../../public/tricodeLogo.png";
 import cn from "../lib/utils";
-
+import { useNavigate } from "react-router-dom";
 export default function App() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-black via-gray-900 to-gray-950">
       <AnimatedGridPattern
@@ -47,7 +48,9 @@ export default function App() {
           </a>
 
           {/* Button */}
-          <button className="border border-pink-400/20 px-6 py-2 rounded-full text-pink-400 font-medium transition-all duration-300 hover:bg-pink-400/10 hover:border-pink-400/30">
+          <button
+          onClick={()=>(navigate("/signup"))}
+          className="border border-pink-400/20 px-6 py-2 rounded-full text-pink-400 font-medium transition-all duration-300 hover:bg-pink-400/10 hover:border-pink-400/30">
             Create Account
           </button>
         </nav>
@@ -116,6 +119,7 @@ export default function App() {
             className="h-12 gap-2 rounded-full px-6 text-base font-medium text-white 
                        bg-gradient-to-r from-indigo-400 to-pink-500 
                        transition-all duration-300 hover:opacity-90 hover:scale-105 shadow-lg"
+                       onClick={()=>(navigate("/compiler"))}
           >
             Start Coding
           </motion.button>
@@ -172,6 +176,7 @@ export default function App() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="mt-24 px-6 py-2 bg-gradient-to-r from-indigo-400 to-pink-500 text-white rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={()=>(navigate("/compiler"))}
               >
                 Try Tricode
               </motion.button>

@@ -21,7 +21,7 @@ function Header() {
         </> : <>
         
           <button className="px-4 py-2 text-sm font-semibold border-none rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-black"
-          onClick={() => navigate("/login")}>
+          onClick={() => navigate("/signup")}>
           Create Account
         </button></>}
         

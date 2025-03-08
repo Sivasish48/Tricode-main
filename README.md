@@ -1,6 +1,12 @@
 Tricode is a modern web application designed to help developers practice coding challenges, collaborate in real-time, and improve their programming skills through interactive coding sessions.
 
-![Tricode Screenshot](app-screenshot.png) <!-- Add actual screenshot path -->
+## Demo Video
+
+Watch Tricode in action:
+
+[![Tricode Demo Video](https://img.youtube.com/vi/kKAW6A0-3R8/0.jpg)](https://youtu.be/kKAW6A0-3R8)
+
+*(Click the image above to watch the demo video)*
 
 ## Features
 
